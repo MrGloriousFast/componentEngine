@@ -63,6 +63,7 @@ class FpsTimer(Entity):
     
         comp_posi = Component_Position(x,y)
         comp_text = Component_Text(text)
+        comp_text.color = (255,255,255)
         
         self.text = text
         

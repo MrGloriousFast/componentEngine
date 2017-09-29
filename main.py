@@ -50,8 +50,6 @@ def main():
     frames = 0
 
     fps = FpsTimer(5,5,"FPS: ",16)
-    
-
 
     #load image
     imgPath = os.path.join("art","graphic","test.png")
