@@ -15,18 +15,18 @@ from enemy import *
 
 #set up the window
 FPS = 60
-Window_y = 720#1080
-Window_x = 1280#1920
+Window_y = 1080
+Window_x = 1920
 
 
 #
 #2017-09-29
 #todo:
 #
-#components have to be easier to get
 #
 #
 #
+#make enemies and player collide
 #
 #
 #
@@ -39,6 +39,7 @@ def main():
     #create our main surface
     DISPLAYSURF = pygame.display.set_mode((Window_x,Window_y),pygame.FULLSCREEN)
     pygame.display.set_caption('BasicEngine')
+    BGCOLOR = (10,10,10)
 
     #create a clock object:
     DELTAT = 0
@@ -57,8 +58,14 @@ def main():
     wavPath = os.path.join("art","sound","test.wav")
     wav = pygame.mixer.Sound(wavPath)
        
-    #create test enemy
-    tom = Enemy(200, 200, img, wav)
+    #create test enemies
+    enemies = []
+    for i in range(0,500):
+        temp = Enemy(random.uniform(0,1000), random.uniform(0,1000), img, wav)
+        enemies.append(temp)
+    
+    #create player
+    player = Player(random.uniform(0,1000), random.uniform(0,1000), img, wav)
     
     #create processors
     pro_painter = Processor_Painter(DISPLAYSURF)
@@ -66,26 +73,61 @@ def main():
     pro_move = Processor_Move()
     pro_text = Processor_Text(DISPLAYSURF, pygame.font.Font('freesansbold.ttf', 16))
     pro_ai = Processor_Artificial()
+    pro_ai2 = Processor_Follow()
+
+    pro_control = Processor_HumanControl()
 
     while True:
 
+        DISPLAYSURF.fill(BGCOLOR)
+
         # MAINLOOP
-        pro_painter.process(tom)
-        #pro_audio.process(tom)
-        pro_ai.process(tom)
-        pro_move.process(tom)
-        pro_text.process(tom)
-        
+        for tom in enemies:
+            pro_painter.process(tom)
+            #pro_audio.process(tom)
+            #pro_ai.process(tom, enemies)
+            pro_ai2.process(tom, player)
+            pro_move.process(tom)
+            #pro_text.process(tom)
+
+        pro_painter.process(player)
+        #pro_audio.process(player)
+        pro_move.process(player)
+        pro_text.process(player)
+
+
         # MAINLOOP END
               
         # event handling loop
-        pygame.event.pump()
         for event in pygame.event.get(): 
             if event.type == QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
                 print('Exit Game')
                 pygame.quit()
                 sys.exit()
+                
+        #Player Movements
+        pygame.event.pump()
+        keyArray = pygame.key.get_pressed()
+        
+        contx= 0.0
+        conty=0.0
+        if(keyArray[273] or keyArray[119]):#UP+W
+            conty = -1.0
+        elif(keyArray[274] or keyArray[115]):#DOWN+S
+            conty = 1.0
+        else:
+            conty = 0.0
 
+        if(keyArray[276] or keyArray[97]):#LEFT+A
+            contx = -1.0
+        elif(keyArray[275] or keyArray[100]):#RIGHT+D
+            contx = 1.0
+        else:
+            contx = 0.0
+        
+        pro_control.process(player,contx, conty)
+                
+                
         #Redraw the screen and wait a clock tick.
         pygame.display.update()
         pygame.time.wait(1)

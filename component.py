@@ -36,7 +36,7 @@ class Component_Speed(Component_Base):
 class Component_Text(Component_Base):
     def __init__(self, text):
         self.type = 'text'
-        self.text = "example text"
+        self.text = text
         self.color = (100,100,100)
         self.size = 16
     
