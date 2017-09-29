@@ -1,9 +1,12 @@
 import random, pygame, math, sys, os, datetime
 from pygame.locals import *
 from pygame import mixer
+
+#init pygame stuff
 pygame.init()
 mixer.init()
 
+#import my component stuff
 from entity import *
 from compManager import *
 from component import *
@@ -11,7 +14,6 @@ from processor import *
 
 #set up the window
 FPS = 60
-
 Window_y = 720#1080
 Window_x = 1280#1920
 
@@ -60,8 +62,7 @@ def main():
 
     while True:
         Time = FPSCLOCK.get_time()
-        if Time == 0:
-            Time=1
+
 
         # MAINLOOP
         pro_painter.process(ent.components.get('image'), ent.components.get('position'))
@@ -74,14 +75,13 @@ def main():
         
         #print('DELTAT: ' + str(DELTAT))
         
-        pygame.event.pump()    
-        for event in pygame.event.get(): # event handling loop
+        # event handling loop
+        pygame.event.pump()
+        for event in pygame.event.get(): 
             if event.type == QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
                 print('Exit Game')
                 pygame.quit()
                 sys.exit()
-            
-            
 
         #Redraw the screen and wait a clock tick.
         pygame.display.update()
@@ -91,9 +91,6 @@ def main():
 
         #Deltat = the amount of time wich has passed since last delta.Clock.tick() call:
         DELTAT = DeltaClock.tick()
-
-
-
 
 if __name__ == '__main__':
     main()
