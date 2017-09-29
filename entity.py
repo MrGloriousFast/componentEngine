@@ -8,6 +8,9 @@ class Entity:
         self.id = 0
         self.components = Manager()
         
+    def add(self,comp):
+        self.components.add(comp)
+        
     def get(self,typ):
         return self.components.get(typ)
 
@@ -28,11 +31,11 @@ class Enemy(Entity):
         
         
         #add components to the entity
-        self.components.add(comp_posi)
-        self.components.add(comp_img)
-        self.components.add(comp_sound)
-        self.components.add(comp_speed)
-        self.components.add(comp_text)
+        self.add(comp_posi)
+        self.add(comp_img)
+        self.add(comp_sound)
+        self.add(comp_speed)
+        self.add(comp_text)
         
 class Player(Entity):
     def __init__(self, x, y, img, wav):
@@ -47,8 +50,42 @@ class Player(Entity):
         comp_text = Component_Text('player')
                
         #add components to the entity
-        self.components.add(comp_posi)
-        self.components.add(comp_img)
-        self.components.add(comp_sound)
-        self.components.add(comp_speed)
-        self.components.add(comp_text)
+        self.add(comp_posi)
+        self.add(comp_img)
+        self.add(comp_sound)
+        self.add(comp_speed)
+        self.add(comp_text)
+        
+class FpsTimer(Entity):
+    def __init__(self,x,y,text,size):
+        self.id = 0
+        self.components = Manager()
+    
+        comp_posi = Component_Position(x,y)
+        comp_text = Component_Text(text)
+        
+        self.text = text
+        
+        self.add(comp_posi)
+        self.add(comp_text)
+        
+    def updateText(self, string):
+        self.get('text').text = str(self.text) + str(string)
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        

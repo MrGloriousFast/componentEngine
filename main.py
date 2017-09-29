@@ -49,6 +49,10 @@ def main():
     pygame.time.set_timer(pygame.USEREVENT+1, 500)#how often shall the fps clock updated?
     frames = 0
 
+    fps = FpsTimer(5,5,"FPS: ",16)
+    
+
+
     #load image
     imgPath = os.path.join("art","graphic","test.png")
     img = pygame.image.load(imgPath).convert()
@@ -80,6 +84,9 @@ def main():
     while True:
 
         DISPLAYSURF.fill(BGCOLOR)
+        Time = FPSCLOCK.get_time()
+        if(DELTAT>0):
+            fps.updateText(str(1000/Time))
 
         # MAINLOOP
         for tom in enemies:
@@ -95,8 +102,9 @@ def main():
         pro_move.process(player)
         pro_text.process(player)
 
-
+        pro_text.process(fps)
         # MAINLOOP END
+
               
         # event handling loop
         for event in pygame.event.get(): 
@@ -136,6 +144,7 @@ def main():
 
         #Deltat = the amount of time wich has passed since last delta.Clock.tick() call:
         DELTAT = DeltaClock.tick()
+        
 
 if __name__ == '__main__':
     main()

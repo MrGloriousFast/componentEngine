@@ -125,8 +125,8 @@ class Processor_HumanControl(Processor_Base):
         speed = entity.get('speed')        
         posi = entity.get('position')
         
-        speed.speedx += dirx
-        speed.speedy += diry
+        speed.speedx = 5.0*dirx
+        speed.speedy = 5.0*diry
         
 class Processor_Move(Processor_Base):
     def process(self,entity):
