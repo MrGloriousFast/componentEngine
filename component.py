@@ -28,3 +28,11 @@ class Component_Speed(Component_Base):
         self.type = 'speed'
         self.speedx = float(speedx)
         self.speedy = float(speedy)
+        
+class Component_Text(Component_Base):
+    def __init__(self, text):
+        self.type = 'text'
+        self.text = "example text"
+        self.color = (100,100,100)
+        self.size = 16
+    

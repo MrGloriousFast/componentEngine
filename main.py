@@ -48,33 +48,30 @@ def main():
     comp_img = Component_Image(img)
     comp_sound = Component_Sound(wav)
     comp_speed = Component_Speed(0.1,0.1)
+    comp_text = Component_Text('bla!')
     
     #add components to the entity
     ent.components.add(comp_posi)
     ent.components.add(comp_img)
     ent.components.add(comp_sound)
     ent.components.add(comp_speed)
+    ent.components.add(comp_text)
     
     #create processors
     pro_painter = Processor_Painter(DISPLAYSURF)
     pro_audio = Processor_Sound()
     pro_move = Processor_Move()
+    pro_text = Processor_Text(DISPLAYSURF, pygame.font.Font('freesansbold.ttf', 16))
 
     while True:
-        Time = FPSCLOCK.get_time()
-
 
         # MAINLOOP
         pro_painter.process(ent.components.get('image'), ent.components.get('position'))
         pro_audio.process(ent.components.get('sound'))
         pro_move.process(ent.components.get('position'), ent.components.get('speed'))
-        
+        pro_text.process(ent.components.get('text'), ent.components.get('position'))
         # MAINLOOP END
-        
-        
-        
-        #print('DELTAT: ' + str(DELTAT))
-        
+              
         # event handling loop
         pygame.event.pump()
         for event in pygame.event.get(): 

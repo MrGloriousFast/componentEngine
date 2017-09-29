@@ -28,3 +28,23 @@ class Processor_Move(Processor_Base):
     def process(self,comp_posi, comp_speed):
         comp_posi.posx += comp_speed.speedx
         comp_posi.posy += comp_speed.speedy
+        
+class Processor_Text(Processor_Base):
+
+    def __init__(self, surface, fontObj):
+        self.display = surface
+        self.fontObj = fontObj #pygame.font.Font('freesansbold.ttf', 16)
+
+    def process(self, comp_text, comp_posi):
+        color = comp_text.color
+        if (comp_text.size != 16):
+            fontObj2 = pygame.font.Font('freesansbold.ttf', size)#very slow!
+            textSurfaceObj = fontObj2.render(text, False, color)
+        else:
+            textSurfaceObj = self.fontObj.render(comp_text.text, False, color)
+        textRectObj = textSurfaceObj.get_rect()
+        textRectObj.topleft = (comp_posi.posx,comp_posi.posy)
+        self.display.blit(textSurfaceObj, textRectObj)        
+
+
+
