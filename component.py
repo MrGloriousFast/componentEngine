@@ -22,6 +22,10 @@ class Component_Sound(Component_Base):
 class Component_Player(Component_Base):
    def __init__(self):
         self.type = 'player'
+        
+class Component_Npc(Component_Base):
+   def __init__(self):
+        self.type = 'npc'    
 
 class Component_Speed(Component_Base):
     def __init__(self, speedx, speedy):
@@ -35,4 +39,5 @@ class Component_Text(Component_Base):
         self.text = "example text"
         self.color = (100,100,100)
         self.size = 16
+    
     

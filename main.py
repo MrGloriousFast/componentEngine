@@ -11,11 +11,28 @@ from entity import *
 from compManager import *
 from component import *
 from processor import *
+from enemy import *
 
 #set up the window
 FPS = 60
 Window_y = 720#1080
 Window_x = 1280#1920
+
+
+#
+#2017-09-29
+#todo:
+#
+#components have to be easier to get
+#
+#
+#
+#
+#
+#
+#
+
+
 
 
 def main():
@@ -39,37 +56,26 @@ def main():
     #load sound
     wavPath = os.path.join("art","sound","test.wav")
     wav = pygame.mixer.Sound(wavPath)
-
-    #create test entity
-    ent = Entity()
-    
-    #create components
-    comp_posi = Component_Position(100,100)
-    comp_img = Component_Image(img)
-    comp_sound = Component_Sound(wav)
-    comp_speed = Component_Speed(0.1,0.1)
-    comp_text = Component_Text('bla!')
-    
-    #add components to the entity
-    ent.components.add(comp_posi)
-    ent.components.add(comp_img)
-    ent.components.add(comp_sound)
-    ent.components.add(comp_speed)
-    ent.components.add(comp_text)
+       
+    #create test enemy
+    tom = Enemy(200, 200, img, wav)
     
     #create processors
     pro_painter = Processor_Painter(DISPLAYSURF)
     pro_audio = Processor_Sound()
     pro_move = Processor_Move()
     pro_text = Processor_Text(DISPLAYSURF, pygame.font.Font('freesansbold.ttf', 16))
+    pro_ai = Processor_Artificial()
 
     while True:
 
         # MAINLOOP
-        pro_painter.process(ent.components.get('image'), ent.components.get('position'))
-        pro_audio.process(ent.components.get('sound'))
-        pro_move.process(ent.components.get('position'), ent.components.get('speed'))
-        pro_text.process(ent.components.get('text'), ent.components.get('position'))
+        pro_painter.process(tom)
+        #pro_audio.process(tom)
+        pro_ai.process(tom)
+        pro_move.process(tom)
+        pro_text.process(tom)
+        
         # MAINLOOP END
               
         # event handling loop
