@@ -6,114 +6,78 @@ from pygame import mixer
 pygame.init()
 mixer.init()
 
+#import opengl engine stuff
+from display import *
+from texture import *
+from shader import *
+from instance import *
+
 #import my component stuff
 from entity import *
 from component import *
 from processor import *
 from world import *
 from loader import *
+from movement import *
 
 
 #set up the window
 FPS = 30
-Window_y = 1080
-Window_x = 1920
-
+Window_y = int(1080/1.25)
+Window_x = int(1920/1.25)
 
 #
-#2017-09-29
+#2017-10-02
 #todo:
+
+#openGL (2D) instead of blit
+
 #
 #multithreading?
-#some components should be global
-#fix inheritance from those base calsses
-#openGL instead of blit
-#code cleanup
 #make enemies and player collide
-#add background
-#add camera
+#code cleanup
+
 #chunks/checkerboard world maps?
+
+#some components should be global (only one instance)
+#fix inheritance from those base calsses
+#write loader class
+#hp component
 #different image depending on the move direction
 #remove enemy / kill / delete
-#hp component
-#write loader class
-#
 
-
-
+#add background
+#add camera
 
 def main():
     #create our main surface
-    DISPLAYSURF = pygame.display.set_mode((Window_x,Window_y),pygame.FULLSCREEN)
-    pygame.display.set_caption('BasicEngine')
-    BGCOLOR = (10,10,10)
-
-    #create a clock object:
-    DELTAT = 0
-    FPSCLOCK = pygame.time.Clock()
-    DeltaClock = pygame.time.Clock()
-    FpsUpdateClock = pygame.time.Clock()
-    pygame.time.set_timer(pygame.USEREVENT+1, 500)#how often shall the fps clock get updated?
-    frames = 0
-
-    fps = FpsTimer(5,5,"FPS: ",16)
-
+    dis = Display(Window_x, Window_y, "basic engine", FPS)
     
-
-    #load image
-    data=Data()
-    data.load_all_images()
+    #create camera
+    cam = Camera((dis.w, dis.h))
     
+    #make a point
+    shader = AShader('default')
+    verticies = CQuad().verticies
+    texcords = CQuad().texcords
+    texture = Texture("art/graphic/test.png")
+    inst = Instances( verticies, texcords, shader, texture)
 
-    #load sound
-    wavPath = os.path.join("art","sound","test.wav")
-    wav = pygame.mixer.Sound(wavPath)
-
-    #create test enemies
-    enemies = []
-    for i in range(0,500):
-        temp = Enemy(random.uniform(0,Window_x), random.uniform(0,Window_y), data.img['enemy'], wav)
-        enemies.append(temp)
-    
-    #create player
-    player = Player(1000, 500, data.img['player'], wav)
-    
-    #create processors
-    pro_painter = Processor_Painter(DISPLAYSURF)
-    pro_audio = Processor_Sound()
-    pro_move = Processor_Move()
-    pro_text = Processor_Text(DISPLAYSURF, pygame.font.Font('freesansbold.ttf', 16))
-    pro_ai = Processor_Artificial()
-    pro_ai2 = Processor_Follow()
-
-    pro_control = Processor_HumanControl()
-
-    #create a world
-    w = World()
+    #add instances
+    for i in range(0,100):    
+        inst.append(CBody(random.uniform(0,1),random.uniform(0,1)).pos)
 
     while True:
-
-        DISPLAYSURF.fill(BGCOLOR)
-        Time = FPSCLOCK.get_time()
-        if(Time>0):
-            fps.updateText(str(1000/Time))
-
+        #start measuring how long this loop will take and clear the screen
+        dis.clear()
         # MAINLOOP
-        for tom in enemies:
-            pro_painter.process(tom)
-            #pro_audio.process(tom)
-            #pro_ai.process(tom, enemies)
-            pro_ai2.process(tom, player)
-            pro_move.process(tom)
 
-        pro_painter.process(player)
-        #pro_audio.process(player)
-        pro_move.process(player)
-        pro_text.process(player)
 
-        pro_text.process(fps)
+        inst.render()
+
         # MAINLOOP END
 
+        dis.flip()
               
         # event handling loop
         for event in pygame.event.get(): 
@@ -126,8 +90,9 @@ def main():
         pygame.event.pump()
         keyArray = pygame.key.get_pressed()
         
-        contx= 0.0
-        conty=0.0
+        contx = 0.0
+        conty = 0.0
+
         if(keyArray[273] or keyArray[119]):#UP+W
             conty = -1.0
         elif(keyArray[274] or keyArray[115]):#DOWN+S
@@ -142,17 +107,9 @@ def main():
         else:
             contx = 0.0
         
-        pro_control.process(player,contx, conty)
+        #pro_control.process(player,contx, conty)
                 
                 
-        #Redraw the screen and wait a clock tick.
-        pygame.display.update()
-        pygame.time.wait(1)
-        frames +=1
-        FPSCLOCK.tick(FPS)
-
-        #Deltat = the amount of time wich has passed since last delta.Clock.tick() call:
-        DELTAT = DeltaClock.tick()
         
 
 if __name__ == '__main__':

@@ -36,13 +36,13 @@ class Processor_Artificial(Processor_Base):
         #get components we need        
         comp_npc = entity.get('npc')
         comp_posi = entity.get('position')
-        comp_move = entity.get('speed')
+        comp_move = entity.get('move')
         #do something with it
         counter = 0
         for e in entities:
             e_npc = e.get('npc')
             e_posi = e.get('position')
-            e_move = e.get('speed')
+            e_move = e.get('move')
 
             x1=comp_posi.posx
             y1=comp_posi.posy
@@ -57,8 +57,8 @@ class Processor_Artificial(Processor_Base):
                 y=y1-y2
                 x=x1-x2
                 
-                comp_move.speedx -= x/10000.0 
-                comp_move.speedy -= y/10000.0 
+                comp_move.x -= x/10000.0 
+                comp_move.y -= y/10000.0 
               
         #limit
         if(comp_posi.posx<0):
@@ -83,9 +83,9 @@ class Processor_Follow(Processor_Base):
     def process(self,entityA, entityB):
         #get components we need        
         a_posi = entityA.get('position')
-        a_move = entityA.get('speed')
+        a_move = entityA.get('move')
         b_posi = entityB.get('position')
-        b_move = entityB.get('speed')
+        b_move = entityB.get('move')
 
         #do something with it
 
@@ -103,8 +103,8 @@ class Processor_Follow(Processor_Base):
             y=y1-y2
             x=x1-x2
                 
-            a_move.speedx -= x/(100*dis) 
-            a_move.speedy -= y/(100*dis) 
+            a_move.x -= x/(100*dis) 
+            a_move.y -= y/(100*dis) 
            
     #returns the distance between two points
     #recives two tupel
@@ -124,20 +124,20 @@ class Processor_Sound(Processor_Base):
         
 class Processor_HumanControl(Processor_Base):
     def process(self,entity, dirx, diry):
-        speed = entity.get('speed')        
+        speed = entity.get('move')        
         posi = entity.get('position')
         
-        speed.speedx = 5.0*dirx
-        speed.speedy = 5.0*diry
+        speed.x = 5.0*dirx
+        speed.y = 5.0*diry
         
 class Processor_Move(Processor_Base):
     def process(self,entity):
         #get components we need
         comp_posi = entity.get('position')
-        comp_speed = entity.get('speed')
+        comp_speed = entity.get('move')
         #do something with them
-        comp_posi.posx += comp_speed.speedx
-        comp_posi.posy += comp_speed.speedy
+        comp_posi.posx += comp_speed.x
+        comp_posi.posy += comp_speed.y
         
 class Processor_Text(Processor_Base):
 

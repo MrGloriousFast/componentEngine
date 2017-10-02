@@ -1,46 +1,79 @@
-class Component_Base:
-   def __init__(self):
-        self.typ = 'baseComponent'
+"""
+components are little data packets or structs.
+Each entity is a collection of components and can have more than one
+
+konvention:
+Component classes start with a C
+
+"""
+
+class CBase:
+    """
+    may need to give components id numbers later on.
+    This class is a base class for each component so
+    we can add those kind of stuff later on
+    """
+    typ = 'baseComponent'
+
+class CQuad(CBase):
+    typ = 'quad'
+    #basically two triangles making one quad
+    def __init__(self):
+        self.verticies = [ 
+              -0.5, -0.5 ,  0.0,
+               0.5, -0.5 ,  0.0,
+               0.5,  0.5 ,  0.0,
+               
+               0.5,  0.5 ,  0.0,
+              -0.5,  0.5 ,  0.0,
+              -0.5, -0.5 ,  0.0]
+               
+        self.texcords =[  
+              0.0,  0.0,
+              1.0,  0.0,
+              1.0,  1.0,
+              
+              1.0,  1.0,
+              0.0,  1.0,
+              0.0,  0.0]
         
-class Component_Image(Component_Base):
+        i = [0,1,2,
+             2,3,0]
+
+class CImage(CBase):
     typ = 'image'
     def __init__(self, png):
         self.image = png
         
-class Component_Position(Component_Base):
+class CBody(CBase):
+    typ = 'body'
     def __init__(self, x, y):
-        self.typ = 'position'
-        self.posx = x
-        self.posy = y
-        self.posz = 0
+        self.pos = [x,y,0]
+        self.rot  = 0.0 #in pi
+        self.scale= 1.0 
+        self.radius = 10 #in pixel
 
-class Component_Sound(Component_Base):
+class CSound(CBase):
+    typ = 'sound'
     def __init__(self, wav):
-        self.typ = 'sound'
         self.wav = wav
         
-class Component_Body(Component_Base):
-    def __init__(self, radius):
-        self.typ = 'radius'
-        self.radius = radius
-
-class Component_Player(Component_Base):
-   def __init__(self):
-        self.typ = 'player1'
+class CTeam(CBase):
+    typ = 'team'
+    def __init__(self):
+        self.team = 'player1'   
         
-class Component_Npc(Component_Base):
-   def __init__(self):
-        self.typ = 'npc'   
-
-class Component_Speed(Component_Base):
-    def __init__(self, speedx, speedy):
-        self.typ = 'speed'
-        self.speedx = float(speedx)
-        self.speedy = float(speedy)
+class CMove(CBase):
+    typ = 'move'
+    def __init__(self, x,y):
+        self.x = float(x)
+        self.y = float(y)
+        self.max = 10
         
-class Component_Text(Component_Base):
+        
+class CText(CBase):
+    typ = 'text'
     def __init__(self, text):
-        self.typ = 'text'
         self.text = text
         self.color = (100,100,100)
         self.size = 16
