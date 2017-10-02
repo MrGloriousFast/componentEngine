@@ -25,7 +25,6 @@ class Instances:
     
         #create all static buffers
         self.createBuffer()
-        self.createBuffer_pos()
 
     #add another instance
     def append(self, pos):
@@ -35,7 +34,7 @@ class Instances:
         #self.createBuffer_pos()
         #self.createBuffer_pos()
 
-    def updateShader(self, cam):
+    def updateShader(self):
         self.shader.use()
     
     """
@@ -69,9 +68,9 @@ class Instances:
         inter = np.array(interleaved, dtype="float32")
         self.size = 4 #bytes  
 
-        #print("inter.shape[0]", inter.shape[0])
-        #print("divided by 4:", inter.shape[0]/8)
-        #print('inter: ' + str(inter))
+        print("inter.shape[0]", inter.shape[0])
+
+        print('inter: ' + str(inter))
 
         #fill the buffer
         glBufferData(GL_ARRAY_BUFFER, self.size*inter.shape[0], inter, GL_STATIC_DRAW)
@@ -108,12 +107,11 @@ class Instances:
         self.buffer_step_pos = self.size*3 #three positions data x y z
 
         #make this list so that openGl can read it
-        #print('self.inst_pos ' + str(self.inst_pos))
         inter = np.array(self.inst_pos, dtype="float32")
 
 
         #fill the buffer
-        glBufferData(GL_ARRAY_BUFFER, self.size*3, inter, GL_DYNAMIC_DRAW) 
+        glBufferData(GL_ARRAY_BUFFER, self.size*len(self.inst_pos), inter, GL_DYNAMIC_DRAW) 
 
         glEnableVertexAttribArray(2)#incord #coordinates we sed to the gpu on array 2
 
@@ -161,7 +159,7 @@ class Instances:
         first = 0
         num_verticies = len(self.verticies)
         num_instances = self.instances
-        
+        #print('num_verticies' + str(num_verticies))
         #print(num_instances)
         
         #print('rendering :' + ' num_verticies '+str(num_verticies) +' num_instances '+ str(num_instances))

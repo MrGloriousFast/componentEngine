@@ -30,6 +30,7 @@ Window_x = int(1920/1.25)
 #2017-10-02
 #todo:
 
+#create subfolders for all modules
 #openGL (2D) instead of blit
 
 #
@@ -58,20 +59,23 @@ def main():
     
     #make a point
     shader = AShader('default')
-    verticies = CQuad().verticies
-    texcords = CQuad().texcords
+    a=CQuad()
+    verticies = a.verticies
+    texcords = a.texcords
     texture = Texture("art/graphic/Acid.png")
     inst = Instances( verticies, texcords, shader, texture)
 
     #add instances
     for i in range(0,100):    
         inst.append(CBody(random.uniform(-1.0,1.0),random.uniform(-1.0,1.0)).pos)
+        #inst.append([0.7-i/100,1-i/100,0.0])
+    inst.createBuffer_pos()
+
 
     while True:
         #start measuring how long this loop will take and clear the screen
         dis.clear()
         # MAINLOOP
-
 
         inst.render()
 
