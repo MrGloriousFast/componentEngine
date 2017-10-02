@@ -60,12 +60,12 @@ def main():
     shader = AShader('default')
     verticies = CQuad().verticies
     texcords = CQuad().texcords
-    texture = Texture("art/graphic/test.png")
+    texture = Texture("art/graphic/Acid.png")
     inst = Instances( verticies, texcords, shader, texture)
 
     #add instances
     for i in range(0,100):    
-        inst.append(CBody(random.uniform(0,1),random.uniform(0,1)).pos)
+        inst.append(CBody(random.uniform(-1.0,1.0),random.uniform(-1.0,1.0)).pos)
 
     while True:
         #start measuring how long this loop will take and clear the screen
@@ -74,7 +74,7 @@ def main():
 
 
         inst.render()
-
+        
         # MAINLOOP END
 
         dis.flip()

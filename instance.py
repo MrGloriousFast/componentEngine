@@ -129,7 +129,7 @@ class Instances:
         #now we need to specify where to look into the buffer if you want one specific float:
         #vertex data
         offset = 0
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, self.buffer_step, ctypes.c_void_p(offset))
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, self.buffer_step, ctypes.c_void_p(offset))
         #texture data
         offset = 3 * self.size
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, self.buffer_step, ctypes.c_void_p(offset))
@@ -144,7 +144,7 @@ class Instances:
         #set the pointer correctly
         #position of the instance
         offset = 0 * self.size
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, self.buffer_step_pos, ctypes.c_void_p(offset))
+        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, self.buffer_step_pos, ctypes.c_void_p(offset))
 
         #these the ones we want to change only once per instance (x,1)
         glVertexAttribDivisor(2,1) #incord

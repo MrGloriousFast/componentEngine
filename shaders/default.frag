@@ -2,8 +2,7 @@
 out vec4 outcolor;
 
 uniform sampler2D diffuse;
-//uniform sampler2D samplerTex1;
-//uniform sampler2D samplerTex2;
+
 in vec2 texcord0;
 
 
