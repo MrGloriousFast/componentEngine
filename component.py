@@ -19,7 +19,7 @@ class CQuad(CBase):
     typ = 'quad'
     #basically two triangles making one quad
     def __init__(self):
-        self.verticies = [ 
+        self.verticies = [
               -0.5, -0.5 ,  0.0,
                0.5, -0.5 ,  0.0,
                0.5,  0.5 ,  0.0,

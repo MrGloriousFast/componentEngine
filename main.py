@@ -51,7 +51,7 @@ Window_x = int(1920/1.25)
 
 def main():
     #create our main surface
-    dis = Display(Window_x, Window_y, "basic engine", FPS)
+    dis = Display(Window_x, Window_y, "simple engine", FPS)
     
     #create camera
     cam = Camera((dis.w, dis.h))
@@ -74,7 +74,7 @@ def main():
 
 
         inst.render()
-        
+
         # MAINLOOP END
 
         dis.flip()

@@ -32,7 +32,8 @@ class Instances:
         #needs the pos in a list [x,y,z]
         self.inst_pos.extend(pos)
         self.instances += 1
-        self.createBuffer_pos()
+        #self.createBuffer_pos()
+        #self.createBuffer_pos()
 
     def updateShader(self, cam):
         self.shader.use()
@@ -102,18 +103,19 @@ class Instances:
         #bind it, aka use it
         glBindBuffer(GL_ARRAY_BUFFER, self.buffer_pos)
 
+        self.size = 4 #bytes aka 32bit per number
         #how much data is in one "step" or stride
         self.buffer_step_pos = self.size*3 #three positions data x y z
 
         #make this list so that openGl can read it
         #print('self.inst_pos ' + str(self.inst_pos))
         inter = np.array(self.inst_pos, dtype="float32")
-        self.size = 4 #bytes aka 32bit per number
+
 
         #fill the buffer
         glBufferData(GL_ARRAY_BUFFER, self.size*3, inter, GL_DYNAMIC_DRAW) 
 
-        glEnableVertexAttribArray(2)#incord
+        glEnableVertexAttribArray(2)#incord #coordinates we sed to the gpu on array 2
 
         #unbind it, i dont know why, just do it
         glBindBuffer(GL_ARRAY_BUFFER, 0)
@@ -143,7 +145,7 @@ class Instances:
         
         #set the pointer correctly
         #position of the instance
-        offset = 0 * self.size
+        offset = 0 
         glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, self.buffer_step_pos, ctypes.c_void_p(offset))
 
         #these the ones we want to change only once per instance (x,1)
