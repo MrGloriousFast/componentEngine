@@ -1,35 +1,41 @@
-from compManager import *
 from entity import *
 from component import *
+import pygame
 
 
 class Entity:
+
     def __init__(self):
         self.id = 0
-        self.components = Manager()
+        self.components = {}
         
-    def add(self,comp):
-        self.components.add(comp)
-        
-    def get(self,typ):
-        return self.components.get(typ)
+    def add(self, c):
+        self.components[c.type] = c
+    
+    def get(self, typ):
+        if(typ in self.components):
+            return self.components[typ]
+        else:
+            print('error - request non existing component ' + str(typ))
+            
+    def contains(self,typ):
+        return self.components.contain(typ)
+
 
 class Enemy(Entity):
     def __init__(self, x, y, img, wav):
+        Entity.__init__(self)
+        
+        #image bigger!
+        img = pygame.transform.scale(img, (48,48))
     
-        #give us a components manager
-        self.components = Manager()
-        self.id = 0
-
         #create components
         comp_posi = Component_Position(x,y)
         comp_img = Component_Image(img)
         comp_sound = Component_Sound(wav)
         comp_speed = Component_Speed(0,0)
         comp_text = Component_Text('bla!')
-        
-        
-        
+               
         #add components to the entity
         self.add(comp_posi)
         self.add(comp_img)
@@ -39,9 +45,8 @@ class Enemy(Entity):
         
 class Player(Entity):
     def __init__(self, x, y, img, wav):
-        self.id = 0
-        self.components = Manager()
-        
+        Entity.__init__(self)
+                
         #create components
         comp_posi = Component_Position(x,y)
         comp_img = Component_Image(img)
@@ -58,8 +63,7 @@ class Player(Entity):
         
 class FpsTimer(Entity):
     def __init__(self,x,y,text,size):
-        self.id = 0
-        self.components = Manager()
+        Entity.__init__(self)
     
         comp_posi = Component_Position(x,y)
         comp_text = Component_Text(text)

@@ -3,8 +3,8 @@ class Component_Base:
         self.type = 'baseComponent'
         
 class Component_Image(Component_Base):
-     def __init__(self, png):
-        self.type = 'image'
+    type = 'image'
+    def __init__(self, png):
         self.image = png
         
 class Component_Position(Component_Base):
@@ -18,14 +18,19 @@ class Component_Sound(Component_Base):
     def __init__(self, wav):
         self.type = 'sound'
         self.wav = wav
+        
+class Component_Body(Component_Base):
+    def __init__(self, radius):
+        self.type = 'radius'
+        self.radius = radius
 
 class Component_Player(Component_Base):
    def __init__(self):
-        self.type = 'player'
+        self.type = 'player1'
         
 class Component_Npc(Component_Base):
    def __init__(self):
-        self.type = 'npc'    
+        self.type = 'npc'   
 
 class Component_Speed(Component_Base):
     def __init__(self, speedx, speedy):

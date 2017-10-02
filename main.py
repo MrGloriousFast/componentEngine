@@ -8,13 +8,14 @@ mixer.init()
 
 #import my component stuff
 from entity import *
-from compManager import *
 from component import *
 from processor import *
-from enemy import *
+from world import *
+from loader import *
+
 
 #set up the window
-FPS = 60
+FPS = 30
 Window_y = 1080
 Window_x = 1920
 
@@ -23,13 +24,19 @@ Window_x = 1920
 #2017-09-29
 #todo:
 #
-#
-#
-#
+#multithreading?
+#some components should be global
+#fix inheritance from those base calsses
+#openGL instead of blit
+#code cleanup
 #make enemies and player collide
-#
-#
-#
+#add background
+#add camera
+#chunks/checkerboard world maps?
+#different image depending on the move direction
+#remove enemy / kill / delete
+#hp component
+#write loader class
 #
 
 
@@ -46,28 +53,30 @@ def main():
     FPSCLOCK = pygame.time.Clock()
     DeltaClock = pygame.time.Clock()
     FpsUpdateClock = pygame.time.Clock()
-    pygame.time.set_timer(pygame.USEREVENT+1, 500)#how often shall the fps clock updated?
+    pygame.time.set_timer(pygame.USEREVENT+1, 500)#how often shall the fps clock get updated?
     frames = 0
 
     fps = FpsTimer(5,5,"FPS: ",16)
 
+    
+
     #load image
-    imgPath = os.path.join("art","graphic","test.png")
-    img = pygame.image.load(imgPath).convert()
-    img.set_colorkey((200,0,200))
+    data=Data()
+    data.load_all_images()
+    
 
     #load sound
     wavPath = os.path.join("art","sound","test.wav")
     wav = pygame.mixer.Sound(wavPath)
-       
+
     #create test enemies
     enemies = []
     for i in range(0,500):
-        temp = Enemy(random.uniform(0,1000), random.uniform(0,1000), img, wav)
+        temp = Enemy(random.uniform(0,Window_x), random.uniform(0,Window_y), data.img['enemy'], wav)
         enemies.append(temp)
     
     #create player
-    player = Player(random.uniform(0,1000), random.uniform(0,1000), img, wav)
+    player = Player(1000, 500, data.img['player'], wav)
     
     #create processors
     pro_painter = Processor_Painter(DISPLAYSURF)
@@ -79,11 +88,14 @@ def main():
 
     pro_control = Processor_HumanControl()
 
+    #create a world
+    w = World()
+
     while True:
 
         DISPLAYSURF.fill(BGCOLOR)
         Time = FPSCLOCK.get_time()
-        if(DELTAT>0):
+        if(Time>0):
             fps.updateText(str(1000/Time))
 
         # MAINLOOP
@@ -93,7 +105,6 @@ def main():
             #pro_ai.process(tom, enemies)
             pro_ai2.process(tom, player)
             pro_move.process(tom)
-            #pro_text.process(tom)
 
         pro_painter.process(player)
         #pro_audio.process(player)

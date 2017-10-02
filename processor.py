@@ -4,7 +4,7 @@ class Processor_Base:
     def __init__(self):
         self.test = 0
         
-    def process(self, component):
+    def process(self, entity):
         print("processing...")   
     
 class Processor_Painter(Processor_Base):
@@ -12,17 +12,19 @@ class Processor_Painter(Processor_Base):
     def __init__(self, surface):
         self.display = surface
     
-    def process(self, entity):
+    def process(self, entity, scale=1.0):
         #extract components we need from the entity
         comp_image= entity.get('image')
         posi = entity.get('position')
-        
+                
         #use the data
         self.drawImage(comp_image.image, posi.posx,posi.posy)
         
    #helper function
     def drawImage(self, image , xx ,yy):
+
         (xsize, ysize) = image.get_size()
+
         self.display.blit(image, (int(xx-xsize/2),int(yy-ysize/2)))
 
 class Processor_Artificial(Processor_Base):
@@ -96,13 +98,13 @@ class Processor_Follow(Processor_Base):
 
         dis = self.distance(x1,y1, x2,y2)
             
-
-        #walk towards other entity
-        y=y1-y2
-        x=x1-x2
-            
-        a_move.speedx -= x/(100*dis) 
-        a_move.speedy -= y/(100*dis) 
+        if dis >0:
+            #walk towards other entity
+            y=y1-y2
+            x=x1-x2
+                
+            a_move.speedx -= x/(100*dis) 
+            a_move.speedy -= y/(100*dis) 
            
     #returns the distance between two points
     #recives two tupel
@@ -160,5 +162,25 @@ class Processor_Text(Processor_Base):
         textRectObj.topleft = (comp_posi.posx,comp_posi.posy)
         self.display.blit(textSurfaceObj, textRectObj)        
 
+class Processor_World_Painter(Processor_Base):
+    
+    def __init__(self, surface):
+        self.display = surface
+        self.world = world
+    
+    def process(self, world):
+        #extract components we need from the entity
 
+        
+
+                
+        #use the data
+        self.drawImage(comp_image.image, posi.posx,posi.posy)
+        
+   #helper function
+    def drawImage(self, image , xx ,yy):
+
+        (xsize, ysize) = image.get_size()
+
+        self.display.blit(image, (int(xx-xsize/2),int(yy-ysize/2)))
 
