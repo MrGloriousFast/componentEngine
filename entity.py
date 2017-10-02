@@ -10,7 +10,7 @@ class Entity:
         self.components = {}
         
     def add(self, c):
-        self.components[c.type] = c
+        self.components[c.typ] = c
     
     def get(self, typ):
         if(typ in self.components):
