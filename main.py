@@ -32,8 +32,8 @@ Window_x = int(1920/1.25)
 
 #create subfolders for all modules
 #openGL (2D) instead of blit
+#py2exe possible?
 
-#
 #multithreading?
 #make enemies and player collide
 #code cleanup
@@ -65,7 +65,7 @@ def main():
     #create enemies
     enemies = []
     img = Texture("art/graphic/Acid.png")
-    for _ in range(0,3000):
+    for _ in range(0,1000):
         x = random.uniform(-1.0,1.0)
         y = random.uniform(-1.0,1.0)
         e = Enemy( x, y, img)
@@ -83,11 +83,12 @@ def main():
         dis.clear()
         # MAINLOOP
         
-        
+        t=[]
         for i, e in enumerate(enemies):
-           pro_move.process(e)     
-           inst.inst_pos[2*i] = e.get('body').pos[0]
-           inst.inst_pos[2*i+1] = e.get('body').pos[1]
+            pro_move.process(e)     
+            t.extend(e.get('body').pos)
+        inst.inst_pos = t
+
         inst.create_dynamic_buffer()
         inst.render()
 
