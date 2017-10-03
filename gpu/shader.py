@@ -7,8 +7,8 @@ import numpy, pyrr, os
 class AShader():
     def __init__(self, name):
         
-        path_v = os.path.join('shaders', str(name) +'.vert')
-        path_f = os.path.join('shaders', str(name) +'.frag')
+        path_v = os.path.join('gpu','shaders', str(name) +'.vert')
+        path_f = os.path.join('gpu','shaders', str(name) +'.frag')
         
         self.program = glCreateProgram()
         self.s = []

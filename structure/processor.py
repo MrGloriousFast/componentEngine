@@ -125,7 +125,6 @@ class Processor_Sound(Processor_Base):
 class Processor_HumanControl(Processor_Base):
     def process(self,entity, dirx, diry):
         speed = entity.get('move')        
-        posi = entity.get('position')
         
         speed.x = 5.0*dirx
         speed.y = 5.0*diry

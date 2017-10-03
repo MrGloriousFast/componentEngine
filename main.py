@@ -7,19 +7,17 @@ pygame.init()
 mixer.init()
 
 #import opengl engine stuff
-from display import *
-from texture import *
-from shader import *
-from instance import *
+from gpu.display import *
+from gpu.texture import *
+from gpu.shader import *
+from gpu.instance import *
 
 #import my component stuff
-from entity import *
-from component import *
-from processor import *
-from world import *
-from loader import *
-from movement import *
-
+from structure.entity import *
+from structure.component import *
+from structure.processor import *
+from structure.world import *
+from data.loader import *
 
 #set up the window
 FPS = 100
@@ -58,38 +56,65 @@ def main():
     cam = Camera((dis.w, dis.h))
     
 
-    texture = Texture("art/graphic/Acid.png")
+    texture = Texture("data/images/Acid.png")
     inst = Instances(texture)
 
     #add instances  
     #create enemies
     enemies = []
-    img = Texture("art/graphic/Acid.png")
-    for _ in range(0,1000):
+    img = Texture("data/images/Acid.png")
+    for _ in range(0,10000):
         x = random.uniform(-1.0,1.0)
         y = random.uniform(-1.0,1.0)
         e = Enemy( x, y, img)
         inst.append(e.get('body'))
         enemies.append(e)
+        
+    #create player
+    x=Window_x/2
+    y=Window_y/2
+    player = Player(x,y,Texture("data/images/FatAssZombie.png"))
+    inst.append(player.get('body'))
+    
+    #finalize the data for each enemy and the player and send it to the gpu
     inst.create_dynamic_buffer()
     
     
     
     #create processors
     pro_move = Processor_Move()
+    pro_human = Processor_HumanControl()
 
     while True:
         #start measuring how long this loop will take and clear the screen
-        dis.clear()
+        dis.begin_frame()
         # MAINLOOP
         
-        t=[]
-        for i, e in enumerate(enemies):
-            pro_move.process(e)     
-            t.extend(e.get('body').pos)
-        inst.inst_pos = t
+        #t=[]
+        #for eahc enemy move him and note the changes in a list
+        #for i, e in enumerate(enemies):
+        #    pro_move.process(e)     
+            #inst.inst_pos[3*i+0]=e.get('body').pos[0]
+            #inst.inst_pos[3*i+1]=e.get('body').pos[1]
+            #inst.inst_pos[3*i+2]=e.get('body').pos[2]
+        #    t.extend(e.get('body').pos)
+        #the same for the player but only once
+        #pro_move.process(player)     
+        
+        
+        #inst.inst_pos[-3]=player.get('body').pos[0]
+        #inst.inst_pos[-2]=player.get('body').pos[1]
+        #inst.inst_pos[-1]=player.get('body').pos[2]
+        
+        #t.extend(player.get('body').pos)
+        
+        #update the positions list in the instance renderer
+        #inst.inst_pos = t
 
-        inst.create_dynamic_buffer()
+        #send the data to the gpu
+        #inst.create_dynamic_buffer()
+
+        #render
         inst.render()
 
 
@@ -125,9 +150,10 @@ def main():
         else:
             contx = 0.0
         
-        #pro_control.process(player,contx, conty)
+        #process the change direction from keypresses to the human control processor
+        pro_human.process(player, contx, conty)
                 
-                
+        dis.finish_frame()
         
 
 if __name__ == '__main__':

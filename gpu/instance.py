@@ -1,7 +1,7 @@
 from OpenGL.GL import *
 from OpenGL.GLU import *
-from texture import *
-from shader import AShader
+from gpu.texture import *
+from gpu.shader import AShader
 import numpy as np
 
 def mat_to_array(mat):

@@ -19,7 +19,7 @@ class Data:
         self.img[name] = pic
         
     def load_all_images(self):
-        self.load('player2', ["art","graphic","test.png"])
-        self.load('player' , ["art","graphic","test2.png"])
-        self.load('enemy'  , ["art","graphic","TerrAk47.png"])
+        self.load('player2', ["data","images","test.png"])
+        self.load('player' , ["data","images","test2.png"])
+        self.load('enemy'  , ["data","images","TerrAk47.png"])
          

@@ -1,5 +1,5 @@
-from entity import *
-from component import *
+from structure.entity import *
+from structure.component import *
 import pygame, pyrr, numpy, random
 
 
@@ -16,7 +16,7 @@ class Entity:
         if(typ in self.components):
             return self.components[typ]
         else:
-            print('error - request non existing component ' + str(typ))
+            raise ValueError('error - request non existing component: ' + str(typ))
             
     def contains(self,typ):
         return self.components.contain(typ)
@@ -57,22 +57,13 @@ class Enemy(Entity):
         self.add(CMove(0.001,0.001))
         
 class Player(Entity):
-    def __init__(self, x, y, img, wav):
+    def __init__(self, x, y, img):
         Entity.__init__(self)
                 
-        #create components
-        comp_posi = CBody(x,y)
-        comp_img = CImage(img)
-        comp_sound = CSound(wav)
-        comp_speed = CMove(0,0)
-        comp_text = CText('player')
-               
         #add components to the entity
-        self.add(comp_posi)
-        self.add(comp_img)
-        self.add(comp_sound)
-        self.add(comp_speed)
-        self.add(comp_text)
+        self.add(CBody(x,y))
+        self.add(CMove(0,0))
+        self.add(CText('player'))
         
 class FpsTimer(Entity):
     def __init__(self,x,y,text,size):
