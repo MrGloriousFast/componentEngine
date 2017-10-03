@@ -133,11 +133,11 @@ class Processor_HumanControl(Processor_Base):
 class Processor_Move(Processor_Base):
     def process(self,entity):
         #get components we need
-        comp_posi = entity.get('position')
+        comp_posi = entity.get('body')
         comp_speed = entity.get('move')
         #do something with them
-        comp_posi.posx += comp_speed.x
-        comp_posi.posy += comp_speed.y
+        comp_posi.pos[0] += comp_speed.x
+        comp_posi.pos[1] += comp_speed.y
         
 class Processor_Text(Processor_Base):
 

@@ -15,31 +15,6 @@ class CBase:
     """
     typ = 'baseComponent'
 
-class CQuad(CBase):
-    typ = 'quad'
-    #basically two triangles making one quad
-    def __init__(self):
-        self.verticies = [
-              -0.5, -0.5 ,  0.0,
-               0.5, -0.5 ,  0.0,
-               0.5,  0.5 ,  0.0,
-               
-               0.5,  0.5 ,  0.0,
-              -0.5,  0.5 ,  0.0,
-              -0.5, -0.5 ,  0.0]
-               
-        self.texcords =[  
-              0.0,  0.0,
-              1.0,  0.0,
-              1.0,  1.0,
-              
-              1.0,  1.0,
-              0.0,  1.0,
-              0.0,  0.0]
-        
-        i = [0,1,2,
-             2,3,0]
-
 class CImage(CBase):
     typ = 'image'
     def __init__(self, png):

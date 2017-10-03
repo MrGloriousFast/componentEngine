@@ -1,6 +1,6 @@
 from entity import *
 from component import *
-import pygame, pyrr, numpy
+import pygame, pyrr, numpy, random
 
 
 class Entity:
@@ -46,22 +46,15 @@ class Camera(Entity):
         """   
 
 class Enemy(Entity):
-    def __init__(self, x, y, img, wav):
+    def __init__(self, x, y, img):
         Entity.__init__(self)
         
         #create components
-        comp_posi = CBody(x,y)
-        comp_img = CImage(img)
-        comp_sound = CSound(wav)
-        comp_speed = CMove(0,0)
-        comp_text = CText('bla!')
-               
+        s = random.uniform(0.0001,0.1)
+
         #add components to the entity
-        self.add(comp_posi)
-        self.add(comp_img)
-        self.add(comp_sound)
-        self.add(comp_speed)
-        self.add(comp_text)
+        self.add(CBody(x,y,s))
+        self.add(CMove(0.001,0.001))
         
 class Player(Entity):
     def __init__(self, x, y, img, wav):

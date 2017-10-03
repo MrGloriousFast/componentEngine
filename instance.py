@@ -12,11 +12,28 @@ def mat_to_array(mat):
     return temp
 
 class Instances:
-    def __init__(self, verticies, texcords, shader, texture):
+    def __init__(self, texture):
+    
+
+    
         #everyhting they share
-        self.verticies = verticies
-        self.texcords  = texcords
-        self.shader    = shader
+        self.verticies = [
+              -0.5, -0.5 ,  0.0,
+               0.5, -0.5 ,  0.0,
+               0.5,  0.5 ,  0.0,
+               
+               0.5,  0.5 ,  0.0,
+              -0.5,  0.5 ,  0.0,
+              -0.5, -0.5 ,  0.0]
+        self.texcords =[  
+              0.0,  0.0,
+              1.0,  0.0,
+              1.0,  1.0,
+              
+              1.0,  1.0,
+              0.0,  1.0,
+              0.0,  0.0]
+        self.shader = AShader('default')
         self.texture   = texture
 
         #all world positions, empty in init
@@ -70,9 +87,9 @@ class Instances:
         inter = np.array(interleaved, dtype="float32")
         self.size = 4 #bytes  
 
-        print("inter.shape[0]", inter.shape[0])
+        #print("inter.shape[0]", inter.shape[0])
 
-        print('inter: ' + str(inter))
+        #print('inter: ' + str(inter))
 
         #fill the buffer
         glBufferData(GL_ARRAY_BUFFER, self.size*inter.shape[0], inter, GL_STATIC_DRAW)
@@ -97,6 +114,8 @@ class Instances:
     (positions for each is different)
     """
     def create_dynamic_buffer(self):
+    
+    
         
         #we will use another buffer for all data that changes often (aka world position)
         self.buffer_pos = glGenBuffers(1)
@@ -125,8 +144,6 @@ class Instances:
 
         #make this list so that openGl can read it
         inter = np.array(interleaved, dtype="float32")
-        print(interleaved)
-
 
         #fill the buffer
         glBufferData(GL_ARRAY_BUFFER, self.size*inter.shape[0], inter, GL_DYNAMIC_DRAW) 

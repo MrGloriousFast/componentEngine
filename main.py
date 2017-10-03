@@ -22,7 +22,7 @@ from movement import *
 
 
 #set up the window
-FPS = 30
+FPS = 100
 Window_y = int(1080/1.25)
 Window_x = int(1920/1.25)
 
@@ -57,31 +57,40 @@ def main():
     #create camera
     cam = Camera((dis.w, dis.h))
     
-    #make a point
-    shader = AShader('default')
-    a=CQuad()
-    verticies = a.verticies
-    texcords = a.texcords
+
     texture = Texture("art/graphic/Acid.png")
-    inst = Instances( verticies, texcords, shader, texture)
+    inst = Instances(texture)
 
-    #add instances
-    
-    for i in range(0,10000):    
-        b = CBody(random.uniform(-1.0,1.0),random.uniform(-1.0,1.0), random.uniform(0.001,0.2))
-        print(b.scale)
-        inst.append(b)
-        #inst.append([0.7-i/100,1-i/100,0.0])
-
+    #add instances  
+    #create enemies
+    enemies = []
+    img = Texture("art/graphic/Acid.png")
+    for _ in range(0,3000):
+        x = random.uniform(-1.0,1.0)
+        y = random.uniform(-1.0,1.0)
+        e = Enemy( x, y, img)
+        inst.append(e.get('body'))
+        enemies.append(e)
     inst.create_dynamic_buffer()
-
+    
+    
+    
+    #create processors
+    pro_move = Processor_Move()
 
     while True:
         #start measuring how long this loop will take and clear the screen
         dis.clear()
         # MAINLOOP
-
+        
+        
+        for i, e in enumerate(enemies):
+           pro_move.process(e)     
+           inst.inst_pos[2*i] = e.get('body').pos[0]
+           inst.inst_pos[2*i+1] = e.get('body').pos[1]
+        inst.create_dynamic_buffer()
         inst.render()
+
 
         # MAINLOOP END
 
