@@ -66,10 +66,14 @@ def main():
     inst = Instances( verticies, texcords, shader, texture)
 
     #add instances
-    for i in range(0,100):    
-        inst.append(CBody(random.uniform(-1.0,1.0),random.uniform(-1.0,1.0)).pos)
+    
+    for i in range(0,10000):    
+        b = CBody(random.uniform(-1.0,1.0),random.uniform(-1.0,1.0), random.uniform(0.001,0.2))
+        print(b.scale)
+        inst.append(b)
         #inst.append([0.7-i/100,1-i/100,0.0])
-    inst.createBuffer_pos()
+
+    inst.create_dynamic_buffer()
 
 
     while True:

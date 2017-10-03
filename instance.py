@@ -21,26 +21,28 @@ class Instances:
 
         #all world positions, empty in init
         self.inst_pos = []
+        self.inst_scale = []
         self.instances = 0
     
         #create all static buffers
-        self.createBuffer()
+        #everything that is the same for each instance
+        self.create_static_buffer()
 
     #add another instance
-    def append(self, pos):
+    def append(self, component_body):
+        self.inst_scale.append(component_body.scale)
         #needs the pos in a list [x,y,z]
-        self.inst_pos.extend(pos)
+        #self.inst_pos.append(pos)
+        self.inst_pos.extend(component_body.pos)
         self.instances += 1
-        #self.createBuffer_pos()
-        #self.createBuffer_pos()
-
+        
     def updateShader(self):
         self.shader.use()
     
     """
     buffer for static data (everything that is the same for each instance)
     """
-    def createBuffer(self):
+    def create_static_buffer(self):
             
         #create a buffer
         # we will use only one buffer for all static things that are the same for each instance
@@ -94,7 +96,7 @@ class Instances:
     it can be bigger or smaller than the other buffer, depending on the number of instances.
     (positions for each is different)
     """
-    def createBuffer_pos(self):
+    def create_dynamic_buffer(self):
         
         #we will use another buffer for all data that changes often (aka world position)
         self.buffer_pos = glGenBuffers(1)
@@ -105,16 +107,33 @@ class Instances:
         self.size = 4 #bytes aka 32bit per number
         #how much data is in one "step" or stride
         self.buffer_step_pos = self.size*3 #three positions data x y z
+        self.buffer_step_pos += self.size*1 #one scale float
+
+
+
+
+        #sort the data
+        interleaved = []
+        for i in range(0,int(len(self.inst_pos)/3)):
+            #all three vertex floats afet each other
+            interleaved.append(self.inst_pos[i*3])#x
+            interleaved.append(self.inst_pos[i*3+1])#y
+            interleaved.append(self.inst_pos[i*3+2])#z
+            #all two texture coords after each other
+            interleaved.append(self.inst_scale[i])#s
+
 
         #make this list so that openGl can read it
-        inter = np.array(self.inst_pos, dtype="float32")
+        inter = np.array(interleaved, dtype="float32")
+        print(interleaved)
 
 
         #fill the buffer
-        glBufferData(GL_ARRAY_BUFFER, self.size*len(self.inst_pos), inter, GL_DYNAMIC_DRAW) 
+        glBufferData(GL_ARRAY_BUFFER, self.size*inter.shape[0], inter, GL_DYNAMIC_DRAW) 
 
         glEnableVertexAttribArray(2)#incord #coordinates we sed to the gpu on array 2
-
+        glEnableVertexAttribArray(3)#scale
+        
         #unbind it, i dont know why, just do it
         glBindBuffer(GL_ARRAY_BUFFER, 0)
 
@@ -145,9 +164,15 @@ class Instances:
         #position of the instance
         offset = 0 
         glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, self.buffer_step_pos, ctypes.c_void_p(offset))
+        #scale of the instance
+        offset = 3 * self.size 
+        glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, self.buffer_step_pos, ctypes.c_void_p(offset))
+
+
 
         #these the ones we want to change only once per instance (x,1)
         glVertexAttribDivisor(2,1) #incord
+        glVertexAttribDivisor(3,1) #scale
         
     def render(self):
     

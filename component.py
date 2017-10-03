@@ -47,10 +47,10 @@ class CImage(CBase):
         
 class CBody(CBase):
     typ = 'body'
-    def __init__(self, x, y):
+    def __init__(self, x, y, s=1.0):
         self.pos = [x,y,0]
         self.rot  = 0.0 #in pi
-        self.scale= 1.0 
+        self.scale= s 
         self.radius = 10 #in pixel
 
 class CSound(CBase):

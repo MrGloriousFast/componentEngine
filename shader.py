@@ -23,6 +23,7 @@ class AShader():
         glBindAttribLocation(self.program, 0, "inposition")
         glBindAttribLocation(self.program, 1, "intexcord")
         glBindAttribLocation(self.program, 2, "incord")
+        glBindAttribLocation(self.program, 3, "scale")
         
         glLinkProgram(self.program)
         glValidateProgram(self.program)
