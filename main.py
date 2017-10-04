@@ -26,20 +26,26 @@ Window_y = int(1080/1.25)
 Window_x = int(1920/1.25)
 
 """
-#2017-10-04
+#2017-10-05
 
 
 --emergency--
 
 --inprogress--
 
-component manager
-    one dict for all comoponents of one type
-    be weary of intercomponent communication
-    entities need ids
-    some components should be global (only one instance)
+render the player
+
 
 --testing--
+
+component manager
+    be weary of intercomponent communication
+    some components should be global (only one instance)
+    code cleanup
+    variable cleanup in manager
+    one image is not moving(entity_id collision)
+    need entity id manager(singleton?)
+    
 
 --done--
 
@@ -50,7 +56,7 @@ working file for phillip
     Seems hard to set up but possible
     2017-10-04 
 
-render the player
+rework systems(processors) and components to fit better into our manager
 
 support more than one texture
 
@@ -81,10 +87,6 @@ def main():
     #create our main surface
     dis = Display(Window_x, Window_y, "simple engine", FPS)
     
-    #create camera
-    cam = Camera((dis.w, dis.h))
-    
-
     texture = Texture("data/images/Acid.png")
     inst = Instances(texture)
 
@@ -105,12 +107,7 @@ def main():
     
         man.add(e, b.typ, b)
         man.add(e, m.typ, m)
-    #get every entity with components C2, C4, C6
-    l = man.get_all_components('body')
-    #print(l)
-    inst.append_all(l)
-    #inst.create_dynamic_buffer()
-   
+    
     
     
 
@@ -120,25 +117,14 @@ def main():
     x=0.1#Window_x/2
     y=0.1#Window_y/2
     s = .1
-    p = 10 #id of t he player character; might create conflicts!
+    p = -1 #id of t he player character; might create conflicts!
     b = CBody(x,y,s)
     m = CMove(0.00,0.00)
     
     man.add(p, b.typ, b)
     man.add(p, m.typ, m)
     man.group_create('player',[p])
-    #get every entity with components C2, C4, C6
-    l = man.get(p,'body')
-    #print(l)
-    inst.append(l)
-    inst.create_dynamic_buffer()
-   
-    
-    
-    #finalize the data for each enemy and the player and send it to the gpu
-    inst.create_dynamic_buffer()
-    
-    
+       
     
     #create processors
     pro_move = Processor_Move()
@@ -156,7 +142,7 @@ def main():
             #move them            
             pro_move.process(body, move)
                
-        #prepare= new body positions for gpu
+        #prepare new body positions for gpu
         inst.set_all( man.get_all_components('body'))
         #sendd them to the gpu
         inst.create_dynamic_buffer()

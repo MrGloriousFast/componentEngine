@@ -125,8 +125,8 @@ class Processor_Sound(Processor_Base):
 class Processor_HumanControl(Processor_Base):
     def process(self,move, dirx, diry):
 
-        move.x = 0.001*dirx
-        move.y = 0.001*diry
+        move.x = 0.005*dirx
+        move.y = 0.005*diry
         
 class Processor_Move(Processor_Base):
     def process(self,body, move):

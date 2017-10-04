@@ -61,6 +61,14 @@ class Manager():
     def get(self, E_ID, C_T):
         return self.e_id[E_ID][C_T]
         
+    """
+    def get_all(self, E_ID, list_C_T):
+        result = []
+        for t in list_C_T:
+            result.append(self.e_id[E_ID][t])
+        return result
+    """
+        
     #returns all components that have this component type
     def get_all_type(self, C_T):
         return self.c_id[C_T]
@@ -73,16 +81,17 @@ class Manager():
                 result = result.intersection(self.c_id[typ])
             return result
         else:
-            return set()
+            return {}
 
     """
     component typ relations
     """
+    #returns all components of a type
     def get_all_components(self, typ):
         if typ in self.component_typ:
             return self.component_typ[typ]
         else:
-            return set()
+            return {}
 
     """
     group membership
