@@ -16,6 +16,7 @@ from gpu.instance import *
 from structure.entity import *
 from structure.component import *
 from structure.processor import *
+from structure.manager import Manager
 from structure.world import *
 from data.loader import *
 
@@ -32,9 +33,11 @@ Window_x = int(1920/1.25)
 
 --inprogress--
 
-working file for phillip
-    need wine to run py2exe or pyinsstaller or cxfreeze may even need vm
-
+component manager
+    one dict for all comoponents of one type
+    be weary of intercomponent communication
+    entities need ids
+    some components should be global (only one instance)
 
 --testing--
 
@@ -42,10 +45,10 @@ working file for phillip
 
 --icebox--
 
-component manager -> one dict for all comoponents of one type
-   be weary of intercomponent communication
-   entitieas need ids
-    some components should be global (only one instance)
+working file for phillip
+    need wine to run py2exe or pyinsstaller or cxfreeze may even need vm
+    Seems hard to set up but possible
+    2017-10-04 
 
 render the player
 
@@ -85,11 +88,33 @@ def main():
     texture = Texture("data/images/Acid.png")
     inst = Instances(texture)
 
+
+    #create a manager
+    man = Manager()
+    #fill the manager
+    for e in range(0,5):
+        for i in range(e,10):
+            c_t = i
+            c = "e_"+str(e)+" c_"+str(c_t)
+            man.add(e, c_t, c)
+    #get every entity with components C2, C4, C6
+    l = man.get_all_type(2)
+    print(l)
+    ll = man.get_all_type_list([4,6])
+    print(ll, [4,6])
+    #make groups
+    man.group_create('equal',[0,2,4,6,8])
+    print(man.group_get('equal'))
+    
+    
+    
+    
+
     #add instances  
     #create enemies
     enemies = []
     img = Texture("data/images/Acid.png")
-    for _ in range(0,10000):
+    for _ in range(0,100):
         x = random.uniform(-1.0,1.0)
         y = random.uniform(-1.0,1.0)
         e = Enemy( x, y, img)
@@ -110,7 +135,7 @@ def main():
     #create processors
     pro_move = Processor_Move()
     pro_human = Processor_HumanControl()
-
+    
     while True:
         #start measuring how long this loop will take and clear the screen
         dis.begin_frame()
