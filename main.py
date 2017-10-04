@@ -64,7 +64,6 @@ code cleanup
 
 chunks/checkerboard world maps?
 
-
 fix inheritance from those base calsses
 write loader class
 hp component
