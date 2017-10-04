@@ -114,8 +114,6 @@ class Instances:
     (positions for each is different)
     """
     def create_dynamic_buffer(self):
-    
-    
         
         #we will use another buffer for all data that changes often (aka world position)
         self.buffer_pos = glGenBuffers(1)
@@ -127,9 +125,6 @@ class Instances:
         #how much data is in one "step" or stride
         self.buffer_step_pos = self.size*3 #three positions data x y z
         self.buffer_step_pos += self.size*1 #one scale float
-
-
-
 
         #sort the data
         interleaved = []

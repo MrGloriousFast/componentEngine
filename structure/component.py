@@ -22,11 +22,12 @@ class CImage(CBase):
         
 class CBody(CBase):
     typ = 'body'
-    def __init__(self, x, y, s=1.0):
+    def __init__(self, x, y, scale=1.0, speedx = 0.01, speedy = 0.01):
         self.pos = [x,y,0]
         self.rot  = 0.0 #in pi
-        self.scale= s 
+        self.scale= scale
         self.radius = 10 #in pixel
+        self.speed = [speedx,speedy]
 
 class CSound(CBase):
     typ = 'sound'

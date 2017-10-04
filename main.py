@@ -24,29 +24,56 @@ FPS = 100
 Window_y = int(1080/1.25)
 Window_x = int(1920/1.25)
 
-#
-#2017-10-02
-#todo:
+"""
+#2017-10-04
 
-#create subfolders for all modules
-#openGL (2D) instead of blit
-#py2exe possible?
 
-#multithreading?
-#make enemies and player collide
-#code cleanup
+--emergency--
 
-#chunks/checkerboard world maps?
+--inprogress--
 
-#some components should be global (only one instance)
-#fix inheritance from those base calsses
-#write loader class
-#hp component
-#different image depending on the move direction
-#remove enemy / kill / delete
+working file for phillip
+    need wine to run py2exe or pyinsstaller or cxfreeze may even need vm
 
-#add background
-#add camera
+
+--testing--
+
+--done--
+
+--icebox--
+
+component manager -> one dict for all comoponents of one type
+   be weary of intercomponent communication
+   entitieas need ids
+    some components should be global (only one instance)
+
+render the player
+
+support more than one texture
+
+turn instance class into processor component model
+
+buffer streaming
+
+drehen spiegeln der bilder
+different image depending on the move direction
+
+multithreading?
+make enemies and player collide
+code cleanup
+
+chunks/checkerboard world maps?
+
+
+fix inheritance from those base calsses
+write loader class
+hp component
+
+remove enemy / kill / delete
+
+add background
+add camera
+"""
 
 def main():
     #create our main surface
