@@ -92,7 +92,7 @@ def main():
     #create a manager
     man = Manager()
     #fill the manager
-    for e in range(0,20000):
+    for e in range(0,1):
 
 
         #add components to the entity
@@ -109,37 +109,35 @@ def main():
     l = man.get_all_components('body')
     #print(l)
     inst.append_all(l)
-    inst.create_dynamic_buffer()
-    #print(l)
-#    ll = man.get_all_type_list([4,6])
-#    print(ll, [4,6])
-    #make groups
-#    man.group_create('equal',[0,2,4,6,8])
-#    print(man.group_get('equal'))
+    #inst.create_dynamic_buffer()
+   
     
     
-    
-    """
 
-    #add instances  
-    #create enemies
-    enemies = []
-    img = Texture("data/images/Acid.png")
-    for _ in range(0,100):
-
-        e = Enemy( x, y, img)
-        inst.append(e.get('body'))
-        enemies.append(e)
         
-    #create player
-    x=Window_x/2
-    y=Window_y/2
-    player = Player(x,y,Texture("data/images/FatAssZombie.png"))
-    inst.append(player.get('body'))
+    #create player    
+    #add components to the entity
+    x=0.1#Window_x/2
+    y=0.1#Window_y/2
+    s = .1
+    p = 10
+    b = CBody(x,y,s)
+    m = CMove(0.00,0.00)
+    
+    man.add(p, b.typ, b)
+    man.add(p, m.typ, m)
+    man.group_create('player',[p])
+    #get every entity with components C2, C4, C6
+    l = man.get(p,'body')
+    #print(l)
+    inst.append(l)
+    inst.create_dynamic_buffer()
+   
+    
     
     #finalize the data for each enemy and the player and send it to the gpu
     inst.create_dynamic_buffer()
-    """
+    
     
     
     #create processors
@@ -151,40 +149,17 @@ def main():
         dis.begin_frame()
         # MAINLOOP
         
-        E = man.get_all_type_list(['body','move'])
-        
-        
-        for E_ID in E: 
+        #for all entities that have a body and a move component
+        for E_ID in man.get_all_type_list(['body','move']): 
             body = man.get(E_ID, 'body')
             move = man.get(E_ID, 'move')
-            
+            #move them            
             pro_move.process(body, move)
+               
+        #prepare= new body positions for gpu
         inst.set_all( man.get_all_components('body'))
-        
+        #sendd them to the gpu
         inst.create_dynamic_buffer()
-        #t=[]
-        #for eahc enemy move him and note the changes in a list
-        #for i, e in enumerate(enemies):
-        #    pro_move.process(e)     
-            #inst.inst_pos[3*i+0]=e.get('body').pos[0]
-            #inst.inst_pos[3*i+1]=e.get('body').pos[1]
-            #inst.inst_pos[3*i+2]=e.get('body').pos[2]
-        #    t.extend(e.get('body').pos)
-        #the same for the player but only once
-        #pro_move.process(player)     
-        
-        
-        #inst.inst_pos[-3]=player.get('body').pos[0]
-        #inst.inst_pos[-2]=player.get('body').pos[1]
-        #inst.inst_pos[-1]=player.get('body').pos[2]
-        
-        #t.extend(player.get('body').pos)
-        
-        #update the positions list in the instance renderer
-        #inst.inst_pos = t
-
-        #send the data to the gpu
-        #inst.create_dynamic_buffer()
 
         #render
         inst.render()
@@ -209,9 +184,9 @@ def main():
         conty = 0.0
 
         if(keyArray[273] or keyArray[119]):#UP+W
-            conty = -1.0
-        elif(keyArray[274] or keyArray[115]):#DOWN+S
             conty = 1.0
+        elif(keyArray[274] or keyArray[115]):#DOWN+S
+            conty = -1.0
         else:
             conty = 0.0
 
@@ -223,7 +198,9 @@ def main():
             contx = 0.0
         
         #process the change direction from keypresses to the human control processor
-        #pro_human.process(player, contx, conty)
+        pid = man.group_get('player')
+        for i in pid:
+            pro_human.process(man.get(i,'move'), contx, conty)
                 
         dis.finish_frame()
         

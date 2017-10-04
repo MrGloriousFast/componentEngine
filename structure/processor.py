@@ -123,11 +123,10 @@ class Processor_Sound(Processor_Base):
         comp_sound.wav.play()
         
 class Processor_HumanControl(Processor_Base):
-    def process(self,entity, dirx, diry):
-        speed = entity.get('move')        
-        
-        speed.x = 5.0*dirx
-        speed.y = 5.0*diry
+    def process(self,move, dirx, diry):
+
+        move.x = 0.001*dirx
+        move.y = 0.001*diry
         
 class Processor_Move(Processor_Base):
     def process(self,body, move):
