@@ -1,7 +1,12 @@
 __pycache__
-structure/__pycache__
+__pycache__/*
+gpu/__pycache__/*
 gpu/__pycache__
+structure/__pycache__
+structure/__pycache__/*
+
 data/__pycache__
+data/__pycache__/*
 build/*
 main.build
 main.dist
