@@ -92,7 +92,7 @@ def main():
     #create a manager
     man = Manager()
     #fill the manager
-    for e in range(0,1):
+    for e in range(0,1000):
 
 
         #add components to the entity
@@ -120,7 +120,7 @@ def main():
     x=0.1#Window_x/2
     y=0.1#Window_y/2
     s = .1
-    p = 10
+    p = 10 #id of t he player character; might create conflicts!
     b = CBody(x,y,s)
     m = CMove(0.00,0.00)
     
