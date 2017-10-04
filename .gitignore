@@ -11,5 +11,6 @@ build/*
 main.build
 main.dist
 main.spec
+main.prof
 dist
 
