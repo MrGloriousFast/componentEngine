@@ -92,31 +92,41 @@ def main():
     #create a manager
     man = Manager()
     #fill the manager
-    for e in range(0,5):
-        for i in range(e,10):
-            c_t = i
-            c = "e_"+str(e)+" c_"+str(c_t)
-            man.add(e, c_t, c)
+    for e in range(0,20000):
+
+
+        #add components to the entity
+        x = random.uniform(-1.0,1.0)
+        y = random.uniform(-1.0,1.0)
+        s = random.uniform(0.01,0.10)
+
+        b = CBody(x,y,s)
+        m = CMove(0.001,0.001)
+    
+        man.add(e, b.typ, b)
+        man.add(e, m.typ, m)
     #get every entity with components C2, C4, C6
-    l = man.get_all_type(2)
-    print(l)
-    ll = man.get_all_type_list([4,6])
-    print(ll, [4,6])
+    l = man.get_all_components('body')
+    #print(l)
+    inst.append_all(l)
+    inst.create_dynamic_buffer()
+    #print(l)
+#    ll = man.get_all_type_list([4,6])
+#    print(ll, [4,6])
     #make groups
-    man.group_create('equal',[0,2,4,6,8])
-    print(man.group_get('equal'))
+#    man.group_create('equal',[0,2,4,6,8])
+#    print(man.group_get('equal'))
     
     
     
-    
+    """
 
     #add instances  
     #create enemies
     enemies = []
     img = Texture("data/images/Acid.png")
     for _ in range(0,100):
-        x = random.uniform(-1.0,1.0)
-        y = random.uniform(-1.0,1.0)
+
         e = Enemy( x, y, img)
         inst.append(e.get('body'))
         enemies.append(e)
@@ -129,7 +139,7 @@ def main():
     
     #finalize the data for each enemy and the player and send it to the gpu
     inst.create_dynamic_buffer()
-    
+    """
     
     
     #create processors
@@ -141,6 +151,17 @@ def main():
         dis.begin_frame()
         # MAINLOOP
         
+        E = man.get_all_type_list(['body','move'])
+        
+        
+        for E_ID in E: 
+            body = man.get(E_ID, 'body')
+            move = man.get(E_ID, 'move')
+            
+            pro_move.process(body, move)
+        inst.set_all( man.get_all_components('body'))
+        
+        inst.create_dynamic_buffer()
         #t=[]
         #for eahc enemy move him and note the changes in a list
         #for i, e in enumerate(enemies):
@@ -202,7 +223,7 @@ def main():
             contx = 0.0
         
         #process the change direction from keypresses to the human control processor
-        pro_human.process(player, contx, conty)
+        #pro_human.process(player, contx, conty)
                 
         dis.finish_frame()
         

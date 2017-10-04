@@ -29,12 +29,16 @@ class Manager():
         self.c_id[0] = set()
     
     
+        #the same as above. we want all components of type body for collision for example.
+        self.component_typ = {}
+        self.component_typ[0] = set()
+    
     """
     component entity relationships
     """
     #creates Emtity E if not already created and gives it a component C of type C_T
     def add(self, E_ID, C_T, C):
-        print(C)
+        #print(C)
 
         #first check if we need to make new ones
 
@@ -47,20 +51,39 @@ class Manager():
             self.e_id[E_ID] = {}
         self.e_id[E_ID][C_T] = C
 
+        if(C_T not in self.component_typ):
+            self.component_typ[C_T] = set()
+        self.component_typ[C_T].add(C)
+        
+
+
     #returns the component that is of type C_T and is owned by E_ID
     def get(self, E_ID, C_T):
         return self.e_id[E_ID][C_T]
         
-    #returns all entities that have this component type
+    #returns all components that have this component type
     def get_all_type(self, C_T):
         return self.c_id[C_T]
 
     #returns entities that have all component types in the types list
     def get_all_type_list(self, types):
-        result =  self.c_id[types[0]]
-        for typ in types:
-            result = result.intersection(self.c_id[typ])
-        return result
+        if types[0] in self.c_id:
+            result =  self.c_id[types[0]]
+            for typ in types:
+                result = result.intersection(self.c_id[typ])
+            return result
+        else:
+            return set()
+
+    """
+    component typ relations
+    """
+    def get_all_components(self, typ):
+        if typ in self.component_typ:
+            return self.component_typ[typ]
+        else:
+            return set()
+
     """
     group membership
     """

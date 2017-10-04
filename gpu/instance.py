@@ -53,6 +53,27 @@ class Instances:
         self.inst_pos.extend(component_body.pos)
         self.instances += 1
         
+    #add alot of instances
+    def append_all(self, component_body_list):
+        for body in component_body_list:
+            self.inst_scale.append(body.scale)
+            #needs the pos in a list [x,y,z]
+            #self.inst_pos.append(pos)
+            self.inst_pos.extend(body.pos)
+            self.instances += 1
+            
+    def set_all(self, component_body_list):
+        self.inst_scale = []
+        self.inst_pos = []
+        self.instances = 0
+        for body in component_body_list:
+            self.inst_scale.append(body.scale)
+            #needs the pos in a list [x,y,z]
+            #self.inst_pos.append(pos)
+            self.inst_pos.extend(body.pos)
+            self.instances += 1
+        
+        
     def updateShader(self):
         self.shader.use()
     
@@ -188,22 +209,24 @@ class Instances:
         
     def render(self):
     
-        #use all correct pointer and shader etc
-        self.bind()
+        if(self.instances > 0):
         
-        #draw ett!
-        #mode = GL_TRIANGLES
-        first = 0
-        num_verticies = len(self.verticies)
-        num_instances = self.instances
-        #print('num_verticies' + str(num_verticies))
-        #print(num_instances)
-        
-        #print('rendering :' + ' num_verticies '+str(num_verticies) +' num_instances '+ str(num_instances))
-        glDrawArraysInstanced(GL_TRIANGLES, first, num_verticies, num_instances)
-        
-        #unbind it, i dont know why, just do it
-        glBindBuffer(GL_ARRAY_BUFFER, 0)
+            #use all correct pointer and shader etc
+            self.bind()
+            
+            #draw ett!
+            #mode = GL_TRIANGLES
+            first = 0
+            num_verticies = len(self.verticies)
+            num_instances = self.instances
+            #print('num_verticies' + str(num_verticies))
+            #print(num_instances)
+            
+            #print('rendering :' + ' num_verticies '+str(num_verticies) +' num_instances '+ str(num_instances))
+            glDrawArraysInstanced(GL_TRIANGLES, first, num_verticies, num_instances)
+            
+            #unbind it, i dont know why, just do it
+            glBindBuffer(GL_ARRAY_BUFFER, 0)
 
         
         

@@ -130,13 +130,10 @@ class Processor_HumanControl(Processor_Base):
         speed.y = 5.0*diry
         
 class Processor_Move(Processor_Base):
-    def process(self,entity):
-        #get components we need
-        comp_posi = entity.get('body')
-        comp_speed = entity.get('move')
+    def process(self,body, move):
         #do something with them
-        comp_posi.pos[0] += comp_speed.x
-        comp_posi.pos[1] += comp_speed.y
+        body.pos[0] += move.x
+        body.pos[1] += move.y
         
 class Processor_Text(Processor_Base):
 
