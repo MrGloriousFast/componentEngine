@@ -37,6 +37,7 @@ class Manager():
     """
     component entity relationships
     """
+    
     #creates Emtity E if not already created and gives it a component C of type C_T
     def add(self, E_ID, C_T, C):
         #first check if we need to make new ones

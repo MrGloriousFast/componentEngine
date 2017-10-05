@@ -40,7 +40,7 @@ class SRender:
         self.inst_pos = []
         self.inst_scale = []
         self.instances = 0
-    
+
         #create all static buffers
         #everything that is the same for each instance
         self._create_static_buffer()
@@ -56,10 +56,7 @@ class SRender:
             self.inst_pos.extend(body.pos)
             self.instances += 1
         self._create_dynamic_buffer()
-        
-        
-    def _updateShader(self):
-        self.shader.use()
+
     
     """
     buffer for static data (everything that is the same for each instance)

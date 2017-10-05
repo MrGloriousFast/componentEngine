@@ -7,25 +7,6 @@ class Processor_Base:
     def process(self, entity):
         print("processing...")   
     
-class Processor_Painter(Processor_Base):
-
-    def __init__(self, surface):
-        self.display = surface
-    
-    def process(self, entity, scale=1.0):
-        #extract components we need from the entity
-        comp_image= entity.get('image')
-        posi = entity.get('position')
-                
-        #use the data
-        self.drawImage(comp_image.image, posi.posx,posi.posy)
-        
-   #helper function
-    def drawImage(self, image , xx ,yy):
-
-        (xsize, ysize) = image.get_size()
-
-        self.display.blit(image, (int(xx-xsize/2),int(yy-ysize/2)))
 
 class Processor_Artificial(Processor_Base):
 

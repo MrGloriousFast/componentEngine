@@ -51,9 +51,7 @@ component manager
     some components should be global (only one instance)
     code cleanup
     variable cleanup in manager
-    one image is not moving(entity_id collision)
-    need entity id manager(singleton?)
-    
+    need entity id manager    
 
 --done--
 
