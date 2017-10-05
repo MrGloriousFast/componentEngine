@@ -121,19 +121,7 @@ class Processor_Sound(Processor_Base):
     def process(self, entity):
         comp_sound = entity.get('sound')
         comp_sound.wav.play()
-        
-class Processor_HumanControl(Processor_Base):
-    def process(self,move, dirx, diry):
-
-        move.x = 0.005*dirx
-        move.y = 0.005*diry
-        
-class Processor_Move(Processor_Base):
-    def process(self,body, move):
-        #do something with them
-        body.pos[0] += move.x
-        body.pos[1] += move.y
-        
+                    
 class Processor_Text(Processor_Base):
 
     def __init__(self, surface, fontObj):

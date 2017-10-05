@@ -43,9 +43,9 @@ class SRender:
     
         #create all static buffers
         #everything that is the same for each instance
-        self.create_static_buffer()
+        self._create_static_buffer()
 
-    def stream(self, component_body_list):
+    def _eat_input(self, component_body_list):
         self.inst_scale = []
         self.inst_pos = []
         self.instances = 0
@@ -55,16 +55,16 @@ class SRender:
             #self.inst_pos.append(pos)
             self.inst_pos.extend(body.pos)
             self.instances += 1
-        self.create_dynamic_buffer()
+        self._create_dynamic_buffer()
         
         
-    def updateShader(self):
+    def _updateShader(self):
         self.shader.use()
     
     """
     buffer for static data (everything that is the same for each instance)
     """
-    def create_static_buffer(self):
+    def _create_static_buffer(self):
             
         #create a buffer
         # we will use only one buffer for all static things that are the same for each instance
@@ -118,7 +118,9 @@ class SRender:
     it can be bigger or smaller than the other buffer, depending on the number of instances.
     (positions for each is different)
     """
-    def create_dynamic_buffer(self):
+    def _create_dynamic_buffer(self):
+        
+        
         
         #we will use another buffer for all data that changes often (aka world position)
         self.buffer_pos = glGenBuffers(1)
@@ -154,7 +156,7 @@ class SRender:
         #unbind it, i dont know why, just do it
         glBindBuffer(GL_ARRAY_BUFFER, 0)
 
-    def bind(self):
+    def _bind(self):
         #make sure we use the correct shader and texture
         self.shader.use()
         self.texture.bind()
@@ -192,12 +194,15 @@ class SRender:
         glVertexAttribDivisor(3,1) #
         
     #render all isntances once
-    def step(self):
+    def step(self, positions):
+    
+        #send all new positions to the gpu
+        self._eat_input(positions)
     
         if(self.instances > 0):
         
             #use all correct pointer and shader etc
-            self.bind()
+            self._bind()
             
             #draw ett!
             #mode = GL_TRIANGLES

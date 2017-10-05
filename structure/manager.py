@@ -16,6 +16,7 @@ class Manager():
             #E_ID , C_T -> C
         self.e_id = {}        
         self.e_id[0] = {}
+        self.id_counter = 0
         
         #groups
         #dict{groupname:set{E_ID}}
@@ -38,8 +39,6 @@ class Manager():
     """
     #creates Emtity E if not already created and gives it a component C of type C_T
     def add(self, E_ID, C_T, C):
-        #print(C)
-
         #first check if we need to make new ones
 
         #add the E_ID to the component sorted dict
@@ -68,20 +67,32 @@ class Manager():
             result.append(self.e_id[E_ID][t])
         return result
     """
-        
-    #returns all components that have this component type
-    def get_all_type(self, C_T):
-        return self.c_id[C_T]
+
+    #returns a dict with all entities and a list of all their components in types
+    def get_sorted(self, types):    
+        result = {}
+        all_e =self.get_all_type_list(types)
+
+        if(all_e is not set() ):
+            for e in all_e:
+                result[e] = set()
+                for t in types:
+                    result[e].add( self.get(e,t) )
+        return result
 
     #returns entities that have all component types in the types list
-    def get_all_type_list(self, types):
+    def get_all_type(self, types):
+    
+        if(not isinstance(types, list)):
+            types = [types]    
+        
         if types[0] in self.c_id:
             result =  self.c_id[types[0]]
             for typ in types:
                 result = result.intersection(self.c_id[typ])
             return result
         else:
-            return {}
+            return set()
 
     """
     component typ relations

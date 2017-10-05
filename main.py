@@ -7,10 +7,11 @@ pygame.init()
 mixer.init()
 
 #import opengl engine stuff
-from gpu.display import *
+from gpu.s_screen import *
 from gpu.texture import *
 from gpu.shader import *
 from gpu.s_render import *
+from structure.s_fps import SFps
 
 #import my component stuff
 from structure.entity import *
@@ -18,6 +19,11 @@ from structure.component import *
 from structure.processor import *
 from structure.manager import Manager
 from structure.world import *
+
+from physics.s_move import SMove
+
+from controls.s_human import SHuman 
+
 from data.loader import *
 
 #set up the window
@@ -58,11 +64,15 @@ working file for phillip
     Seems hard to set up but possible
     2017-10-04 
 
+make that whole thing a package or something so i can use it in other projects as an import
+
 render player
 
 isDead flag and removal of objects
 
 runtime entity creation
+
+fix import statements
 
 play sound
 
@@ -93,10 +103,9 @@ add camera
 
 def main():
     #create our main surface
-    dis = Display(Window_x, Window_y, "simple engine", FPS)
+    sys_screen = SScreen(Window_x, Window_y, "simple engine")
+    sys_fps = SFps(FPS)
     
-
-
     #create a manager
     man = Manager()
     #fill the manager
@@ -109,93 +118,82 @@ def main():
         s = random.uniform(0.01,0.10)
 
         b = CBody(x,y,s)
-        m = CMove(0.001,0.001)
+        m = CMove(0.1,0.1)
     
         man.add(e, b.typ, b)
         man.add(e, m.typ, m)
     
-    
-    
-
-        
     #create player    
     #add components to the entity
     x=0.1#Window_x/2
     y=0.1#Window_y/2
     s = .1
-    p = -1 #id of t he player character; might create conflicts!
+    p = 100000000 #id of t he player character; might create conflicts!
     b = CBody(x,y,s)
     m = CMove(0.00,0.00)
     
     man.add(p, b.typ, b)
     man.add(p, m.typ, m)
     man.group_create('player',[p])
-       
     
     #create systems
     sys_render = SRender(Texture("data/images/Acid.png"))
 
-    pro_move = Processor_Move()
-    pro_human = Processor_HumanControl()
+    sys_move = SMove()
+    sys_human = SHuman(p)
     
+    #some systems may need deltaT input
+    deltaT = 0.0
+
+    # -- MAINLOOP --
     while True:
-        #start measuring how long this loop will take and clear the screen
-        dis.begin_frame()
-        # MAINLOOP
-        
-        #for all entities that have a body and a move component
-        for E_ID in man.get_all_type_list(['body','move']): 
-            body = man.get(E_ID, 'body')
-            move = man.get(E_ID, 'move')
-            #move them            
-            pro_move.process(body, move)
+        #move
+        sys_move.step(man, deltaT)
                
-        #prepare new body positions for gpu
-        sys_render.stream( man.get_all_components('body'))
+        #send new positions to gpu and render them
+        sys_render.step(man.get_all_components('body'))
 
-        #render
-        sys_render.step()
+    # -- MAINLOOP END --
+        user_input(man, sys_human)
+        sys_screen.step()
+        #limit the fps of the mainloop
+        deltaT = sys_fps.step()
+        deltaT = min(0.1,deltaT) #simulation runs at max with x seconds as deltaT
 
-
-        # MAINLOOP END
-
-        dis.flip()
-              
+def user_input(man, sys_human):
+    
         # event handling loop
         for event in pygame.event.get(): 
             if event.type == QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
                 print('Exit Game')
                 pygame.quit()
                 sys.exit()
-                
+
         #Player Movements
         pygame.event.pump()
         keyArray = pygame.key.get_pressed()
         
+        #control x and y
         contx = 0.0
         conty = 0.0
 
+        #check arrow and wasd keys
         if(keyArray[273] or keyArray[119]):#UP+W
             conty = 1.0
         elif(keyArray[274] or keyArray[115]):#DOWN+S
             conty = -1.0
         else:
             conty = 0.0
-
         if(keyArray[276] or keyArray[97]):#LEFT+A
             contx = -1.0
         elif(keyArray[275] or keyArray[100]):#RIGHT+D
             contx = 1.0
         else:
             contx = 0.0
-        
+
         #process the change direction from keypresses to the human control processor
-        pid = man.group_get('player')
-        for i in pid:
-            pro_human.process(man.get(i,'move'), contx, conty)
-                
-        dis.finish_frame()
-        
+        sys_human.step(man, contx, conty)
+
 
 if __name__ == '__main__':
     main()
