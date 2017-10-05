@@ -191,7 +191,9 @@ class SRender:
         glVertexAttribDivisor(3,1) #
         
     #render all isntances once
-    def step(self, positions):
+    def step(self, positions, camera):
+    
+        self.shader.update_cam(camera)
     
         #send all new positions to the gpu
         self._eat_input(positions)

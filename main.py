@@ -13,7 +13,7 @@ from gpu.shader import *
 from gpu.s_render import *
 from structure.s_fps import SFps
 
-#import my component stuff
+#import Entity-Component-System class files
 from structure.entity import *
 from structure.component import *
 from structure.processor import *
@@ -23,8 +23,6 @@ from structure.world import *
 from physics.s_move import SMove
 
 from controls.s_human import SHuman 
-
-from data.loader import *
 
 #set up the window
 FPS = 100
@@ -39,10 +37,10 @@ Window_x = int(1920/1.25)
 
 --inprogress--
 
-rework systems(processors) and components to fit better into our manager
-    systeme müssen sortierte componenten listen bekommen
-    wenn ein system zwei komponte bruacht ists vllt wichtig das sie vom selben entity sind
-    make a O(n**2) collision detection on the gpu similiar to instance class
+camera component
+    render muss sie berücksichtigen
+
+
 
 --testing--
 
@@ -55,7 +53,12 @@ component manager
 
 --done--
 
+rework systems(processors) and components to fit better into our manager
+    systeme bekommen den manager und nehmen sich von ihm was sie brauchen
+
 --icebox--
+
+rework components
 
 working file for phillip
     need wine to run py2exe or pyinsstaller or cxfreeze may even need vm
@@ -96,7 +99,6 @@ hp component
 remove enemy / kill / delete
 
 add background
-add camera
 """
 
 def main():
@@ -107,8 +109,7 @@ def main():
     #create a manager
     man = Manager()
     #fill the manager
-    for e in range(0,1000):
-
+    for e in range(0,1500):
 
         #add components to the entity
         x = random.uniform(-1.0,1.0)
@@ -126,17 +127,25 @@ def main():
     x=0.1#Window_x/2
     y=0.1#Window_y/2
     s = .1
-    p = 100000000 #id of t he player character; might create conflicts!
+    p = 100000000 #id of the player character; might create conflicts!
     b = CBody(x,y,s)
     m = CMove(0.00,0.00)
     
     man.add(p, b.typ, b)
     man.add(p, m.typ, m)
     man.group_create('player',[p])
+
+    #create a camera
+    c_id = 18923718297
+    x=0.5#Window_x/2
+    y=0.1#Window_y/2
+    zoom = 1.0
+    z=0.0
+    cam = CCamera(x, y, z, zoom)
+    man.add(c_id, cam.typ, cam)
     
     #create systems
     sys_render = SRender(Texture("data/images/Acid.png"))
-
     sys_move = SMove()
     sys_human = SHuman(p)
     
@@ -149,7 +158,7 @@ def main():
         sys_move.step(man, deltaT)
                
         #send new positions to gpu and render them
-        sys_render.step(man.get_all_components('body'))
+        sys_render.step(man.get_all_components('body'), man.get(c_id,'camera'))
 
     # -- MAINLOOP END --
         user_input(man, sys_human)

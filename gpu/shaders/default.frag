@@ -6,9 +6,6 @@ uniform sampler2D diffuse;
 in vec2 texcord0;
 
 
-
-
-
 void main(){
     //r,g,b,alpha
     //outColor = texture(samplerTex1, outTexCord)*color;

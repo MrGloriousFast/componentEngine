@@ -1,8 +1,8 @@
 from OpenGL.GL import *
 from OpenGL.GL.shaders import *
 from OpenGL.GLU import *
-import numpy, pyrr, os
-
+import  pyrr, os
+import numpy as np
 
 class AShader():
     def __init__(self, name):
@@ -24,9 +24,25 @@ class AShader():
         glBindAttribLocation(self.program, 1, "intexcord")
         glBindAttribLocation(self.program, 2, "incord")
         glBindAttribLocation(self.program, 3, "scale")
-        
+
         glLinkProgram(self.program)
         glValidateProgram(self.program)
+        
+
+        #uniform array
+        #uniforms are global variables for the gpu
+        self.uniforms = []
+        self.uniforms.append(glGetUniformLocation(self.program, "camera"))
+        
+        
+    
+
+
+    def update_cam(self, cam):
+        glUseProgram(self.program)
+        #use the program before calling this function
+        c = np.array(cam.pos, dtype='float32')
+        glUniform4f(self.uniforms[0], *cam.pos)
     
     #openGl use this shader!
     def use(self):

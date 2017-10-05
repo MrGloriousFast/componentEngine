@@ -45,7 +45,11 @@ class CMove(CBase):
         self.x = float(x)
         self.y = float(y)
         self.max = 10
-        
+
+class CCamera(CBase):
+    typ = 'camera'
+    def __init__(self, x, y, z,zoom):
+        self.pos = [float(x),float(y),float(z),float(zoom)]
         
 class CText(CBase):
     typ = 'text'
@@ -53,5 +57,25 @@ class CText(CBase):
         self.text = text
         self.color = (100,100,100)
         self.size = 16
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     

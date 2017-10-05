@@ -5,20 +5,19 @@ in vec3 incord;
 in float scale;
 
 out vec2 texcord0;
+
+uniform vec4 camera;
         
 void main(){
     
+    //vec3 cam = vec3(-0.5f, -0.5f, 0.0f);
 
-//    gl_Position = vec4( inposition.x+incord.x,
-//                        inposition.y+incord.y,
-//                        inposition.z+incord.z, 1.0f);
-//
-//    gl_Position = vec4( scale*inposition.x+incord.x,
-//                        scale*inposition.y+incord.y,
-//                        inposition.z+incord.z, 1.0f);
+    float x = scale*inposition.x + incord.x - camera.x;
+    float y = scale*inposition.y + incord.y - camera.y;
+    float z = 0.0f; //scale*inposition.z + incord.z;
 
 
-    gl_Position = vec4( scale*inposition+incord, 1.0f);
+    gl_Position = vec4( x,y,z, 1.0f);
 
 
     texcord0 = intexcord;
