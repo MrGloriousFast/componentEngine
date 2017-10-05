@@ -57,6 +57,8 @@ working file for phillip
     2017-10-04 
 
 rework systems(processors) and components to fit better into our manager
+    systeme müssen sortierte componenten listen bekommen
+    wenn ein system zwei komponte bruacht ists vllt wichtig das sie vom selben entity sind
 
 support more than one texture
 
