@@ -10,7 +10,7 @@ mixer.init()
 from gpu.display import *
 from gpu.texture import *
 from gpu.shader import *
-from gpu.instance import *
+from gpu.s_render import *
 
 #import my component stuff
 from structure.entity import *
@@ -33,8 +33,10 @@ Window_x = int(1920/1.25)
 
 --inprogress--
 
-render the player
-
+rework systems(processors) and components to fit better into our manager
+    systeme müssen sortierte componenten listen bekommen
+    wenn ein system zwei komponte bruacht ists vllt wichtig das sie vom selben entity sind
+    make a O(n**2) collision detection on the gpu similiar to instance class
 
 --testing--
 
@@ -56,9 +58,13 @@ working file for phillip
     Seems hard to set up but possible
     2017-10-04 
 
-rework systems(processors) and components to fit better into our manager
-    systeme müssen sortierte componenten listen bekommen
-    wenn ein system zwei komponte bruacht ists vllt wichtig das sie vom selben entity sind
+render player
+
+isDead flag and removal of objects
+
+runtime entity creation
+
+play sound
 
 support more than one texture
 
@@ -89,8 +95,6 @@ def main():
     #create our main surface
     dis = Display(Window_x, Window_y, "simple engine", FPS)
     
-    texture = Texture("data/images/Acid.png")
-    inst = Instances(texture)
 
 
     #create a manager
@@ -128,7 +132,9 @@ def main():
     man.group_create('player',[p])
        
     
-    #create processors
+    #create systems
+    sys_render = SRender(Texture("data/images/Acid.png"))
+
     pro_move = Processor_Move()
     pro_human = Processor_HumanControl()
     
@@ -145,12 +151,10 @@ def main():
             pro_move.process(body, move)
                
         #prepare new body positions for gpu
-        inst.set_all( man.get_all_components('body'))
-        #sendd them to the gpu
-        inst.create_dynamic_buffer()
+        sys_render.stream( man.get_all_components('body'))
 
         #render
-        inst.render()
+        sys_render.step()
 
 
         # MAINLOOP END

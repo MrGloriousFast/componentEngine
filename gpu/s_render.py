@@ -11,7 +11,7 @@ def mat_to_array(mat):
             temp.extend(j)
     return temp
 
-class Instances:
+class SRender:
     def __init__(self, texture):
     
 
@@ -45,24 +45,7 @@ class Instances:
         #everything that is the same for each instance
         self.create_static_buffer()
 
-    #add another instance
-    def append(self, component_body):
-        self.inst_scale.append(component_body.scale)
-        #needs the pos in a list [x,y,z]
-        #self.inst_pos.append(pos)
-        self.inst_pos.extend(component_body.pos)
-        self.instances += 1
-        
-    #add alot of instances
-    def append_all(self, component_body_list):
-        for body in component_body_list:
-            self.inst_scale.append(body.scale)
-            #needs the pos in a list [x,y,z]
-            #self.inst_pos.append(pos)
-            self.inst_pos.extend(body.pos)
-            self.instances += 1
-            
-    def set_all(self, component_body_list):
+    def stream(self, component_body_list):
         self.inst_scale = []
         self.inst_pos = []
         self.instances = 0
@@ -72,6 +55,7 @@ class Instances:
             #self.inst_pos.append(pos)
             self.inst_pos.extend(body.pos)
             self.instances += 1
+        self.create_dynamic_buffer()
         
         
     def updateShader(self):
@@ -205,9 +189,10 @@ class Instances:
 
         #these the ones we want to change only once per instance (x,1)
         glVertexAttribDivisor(2,1) #incord
-        glVertexAttribDivisor(3,1) #scale
+        glVertexAttribDivisor(3,1) #
         
-    def render(self):
+    #render all isntances once
+    def step(self):
     
         if(self.instances > 0):
         
