@@ -38,11 +38,11 @@ class AShader():
     
 
 
-    def update_cam(self, cam):
+    def update_cam(self, pos, zoom):
         glUseProgram(self.program)
         #use the program before calling this function
-        c = np.array(cam.pos, dtype='float32')
-        glUniform4f(self.uniforms[0], *cam.pos)
+        c = np.array(pos.pos, dtype='float32')
+        glUniform4f(self.uniforms[0], *pos.pos, float(zoom))
     
     #openGl use this shader!
     def use(self):

@@ -48,8 +48,8 @@ class CMove(CBase):
 
 class CCamera(CBase):
     typ = 'camera'
-    def __init__(self, x, y, z,zoom):
-        self.pos = [float(x),float(y),float(z),float(zoom)]
+    def __init__(self,zoom):
+        self.zoom = zoom
         
 class CText(CBase):
     typ = 'text'

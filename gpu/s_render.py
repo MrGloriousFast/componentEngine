@@ -13,9 +13,7 @@ def mat_to_array(mat):
 
 class SRender:
     def __init__(self, texture):
-    
-
-    
+       
         #everyhting they share
         self.verticies = [
               -0.5, -0.5 ,  0.0,
@@ -191,9 +189,9 @@ class SRender:
         glVertexAttribDivisor(3,1) #
         
     #render all isntances once
-    def step(self, positions, camera):
+    def step(self, positions, camera_position, camera_zoom):
     
-        self.shader.update_cam(camera)
+        self.shader.update_cam(camera_position, camera_zoom.zoom)
     
         #send all new positions to the gpu
         self._eat_input(positions)

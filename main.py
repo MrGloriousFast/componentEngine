@@ -37,19 +37,24 @@ Window_x = int(1920/1.25)
 
 --inprogress--
 
-camera component
-    render muss sie berücksichtigen
 
+camera component
+    render muss sie berücksichtigen - done
+    camera folgt spieler
+    zoom
+    rotate
 
 
 --testing--
+
+
 
 component manager
     be weary of intercomponent communication
     some components should be global (only one instance)
     code cleanup
     variable cleanup in manager
-    need entity id manager    
+    need entity id manager(id as component?)
 
 --done--
 
@@ -130,19 +135,16 @@ def main():
     p = 100000000 #id of the player character; might create conflicts!
     b = CBody(x,y,s)
     m = CMove(0.00,0.00)
+
+
+    cam = CCamera(1.0)     #create a camera
+    man.add(p, cam.typ, cam)
+
     
     man.add(p, b.typ, b)
     man.add(p, m.typ, m)
     man.group_create('player',[p])
 
-    #create a camera
-    c_id = 18923718297
-    x=0.5#Window_x/2
-    y=0.1#Window_y/2
-    zoom = 1.0
-    z=0.0
-    cam = CCamera(x, y, z, zoom)
-    man.add(c_id, cam.typ, cam)
     
     #create systems
     sys_render = SRender(Texture("data/images/Acid.png"))
@@ -158,7 +160,7 @@ def main():
         sys_move.step(man, deltaT)
                
         #send new positions to gpu and render them
-        sys_render.step(man.get_all_components('body'), man.get(c_id,'camera'))
+        sys_render.step(man.get_all_components('body'), man.get(p,'body'), man.get(p,'camera'))
 
     # -- MAINLOOP END --
         user_input(man, sys_human)
