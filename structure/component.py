@@ -40,7 +40,7 @@ class CSound(CBase):
 class CTeam(CBase):
     typ = 'team'
     def __init__(self):
-        self.team = 'player1'   
+        self.team = 'player1'   #only an example
         
 class CMove(CBase):
     typ = 'move'
@@ -53,7 +53,12 @@ class CCamera(CBase):
     typ = 'camera'
     def __init__(self,zoom):
         self.zoom = zoom
-        
+
+class CArtificial(CBase):
+    typ = 'ai'
+    def __init__(self):
+        self.aware = True #hopefully
+
 class CText(CBase):
     typ = 'text'
     def __init__(self, text):
