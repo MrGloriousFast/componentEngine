@@ -31,6 +31,7 @@ class Manager():
     
     
         #the same as above. we want all components of type body for collision for example.
+        #one type has a set of ids
         self.component_typ = {}
         self.component_typ[0] = set()
     

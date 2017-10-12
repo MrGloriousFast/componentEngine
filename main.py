@@ -36,36 +36,32 @@ Window_x = int(1920/1.25)
 --emergency--
 
 --inprogress--
+rework components
+    ids and type are all over the place
+    id as component
+    type as class variable
 
 component manager
     test against intercomponent communication (should be possible)
     code cleanup
+    boolean has_component(id)
     variable cleanup in manager
-    need entity id manager(id as component?)
-
-
-
 
 --testing--
 
 --fridge--
 
+render player
+    different image
+    
 camera component
-
     camera follows player - done
     implement zoom
     implement rotate
     make camera its own entity?
     make camera follows player but 'lag' behind/before him
 
---done--
-
-rework systems(processors) and components to fit better into our manager
-    systeme bekommen den manager und nehmen sich von ihm was sie brauchen
-
 --icebox--
-
-rework components
 
 working file for phillip
     need wine to run py2exe or pyinsstaller or cxfreeze may even need vm
@@ -74,38 +70,59 @@ working file for phillip
 
 make that whole thing a package or something so i can use it in other projects as an import
 
-render player
-
 isDead flag and removal of objects
 
-runtime entity creation
+creater
+    runtime entity creation
+    blueprint entities
 
 fix import statements
 
 play sound
+    depending on state of the entity
 
 support more than one texture
 
-turn instance class into processor component model
-
 buffer streaming
 
-drehen spiegeln der bilder
+rotate or flip images
+    rotate camera
+
 different image depending on the move direction
+    change image depending on state
 
 multithreading?
+
 make enemies and player collide
-code cleanup
 
 chunks/checkerboard world maps?
 
 fix inheritance from those base calsses
+
 write loader class
+
+ai system
+    ai component
+    
+    
+    
 hp component
 
 remove enemy / kill / delete
 
 add background
+
+render text
+    make a text component (with an offset to the pos in the component)
+
+--done--
+
+rework systems(processors) and components to fit better into our manager
+    systeme bekommen den manager und nehmen sich von ihm was sie brauchen
+
+turn instance class into processor component model
+
+
 """
 
 def main():

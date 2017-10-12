@@ -13,7 +13,10 @@ class CBase:
     This class is a base class for each component so
     we can add those kind of stuff later on
     """
-    typ = 'baseComponent'
+    typ = 'baseComponent' #will be overridden by inheriting components
+    name = '' #no special name
+    identity = 0 #will be reset by the manager
+    
 
 class CImage(CBase):
     typ = 'image'
