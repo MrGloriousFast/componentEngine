@@ -5,91 +5,87 @@
 --emergency--
 
 --inprogress--
-rework components
-    ids and type are all over the place
-    id as component
-    type as class variable
 
-component manager
-    test against intercomponent communication (should be possible)
-    code cleanup
-    boolean has_component(id)
-    variable cleanup in manager
+    creater
+        runtime entity creation
+        blueprint entities
+
+    rework components
+        ids and type are all over the place
+        id as component
+        type as class variable
+
+    component manager
+        code cleanup
+        boolean has_component(id)
+        variable cleanup in manager
 
 --testing--
 
 --fridge--
 
-render player
-    different image
+    render player
+        different image
+
+    camera component
+        camera follows player - done
+        implement zoom
+        implement rotate
+        make camera its own entity?
+        make camera follows player but 'lag' behind/before him
+
+--cellar--
+
+    working file for phillip
+        need wine to run py2exe or pyinsstaller or cxfreeze may even need vm
+        Seems hard to set up but possible
+        2017-10-04 
+
+    make that whole thing a package or something so i can use it in other projects as an import
+
+    isDead flag and removal of objects
+        remove enemy / kill / delete
+        hp component
+
+    fix import statements
+
+    play sound
+        depending on state of the entity
+
+    support more than one texture
+        add background
+        transparency
+        different image depending on the move direction
+        change image depending on state
     
-camera component
-    camera follows player - done
-    implement zoom
-    implement rotate
-    make camera its own entity?
-    make camera follows player but 'lag' behind/before him
+    buffer streaming
 
---icebox--
-
-working file for phillip
-    need wine to run py2exe or pyinsstaller or cxfreeze may even need vm
-    Seems hard to set up but possible
-    2017-10-04 
-
-make that whole thing a package or something so i can use it in other projects as an import
-
-isDead flag and removal of objects
-
-creater
-    runtime entity creation
-    blueprint entities
-
-fix import statements
-
-play sound
-    depending on state of the entity
-
-support more than one texture
-    transparency
+    rotate or flip images
+        rotate camera
     
-buffer streaming
+    multithreading?
+        more like multiprocessing
+        maybe c can help us here, might make it harder to port to phillipp
 
-rotate or flip images
-    rotate camera
+    collision
+        make enemies and player collide
+        chunks/checkerboard world maps?
 
-different image depending on the move direction
-    change image depending on state
+    write loader class
 
-multithreading?
+    ai system
+        ai component
 
-make enemies and player collide
-
-chunks/checkerboard world maps?
-
-fix inheritance from those base calsses
-
-write loader class
-
-ai system
-    ai component
-    
-    
-    
-hp component
-
-remove enemy / kill / delete
-
-add background
-
-render text
-    make a text component (with an offset to the pos in the component)
+    render text
+        make a text component (with an offset to the pos in the component)
 
 --done--
 
-rework systems(processors) and components to fit better into our manager
-    systeme bekommen den manager und nehmen sich von ihm was sie brauchen
+    rework systems(processors) and components to fit better into our manager
+        systeme bekommen den manager und nehmen sich von ihm was sie brauchen
+        bzw wir geben ihnen alles vom manager wass sie brauchen als argument mit
 
-turn instance class into processor component model
+    turn instance class into processor component model
+        its called s_render from now on
 
 
