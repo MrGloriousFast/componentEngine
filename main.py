@@ -37,24 +37,26 @@ Window_x = int(1920/1.25)
 
 --inprogress--
 
+component manager
+    test against intercomponent communication (should be possible)
+    code cleanup
+    variable cleanup in manager
+    need entity id manager(id as component?)
 
-camera component
-    render muss sie berücksichtigen - done
-    camera folgt spieler
-    zoom
-    rotate
+
 
 
 --testing--
 
+--fridge--
 
+camera component
 
-component manager
-    be weary of intercomponent communication
-    some components should be global (only one instance)
-    code cleanup
-    variable cleanup in manager
-    need entity id manager(id as component?)
+    camera follows player - done
+    implement zoom
+    implement rotate
+    make camera its own entity?
+    make camera follows player but 'lag' behind/before him
 
 --done--
 
