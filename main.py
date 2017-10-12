@@ -41,21 +41,21 @@ def main():
     for e in range(0,1500):
 
         #add components to the entity
-        x = random.uniform(-1.0,1.0)
-        y = random.uniform(-1.0,1.0)
+        x = 0.0#random.uniform(-1.0,1.0)
+        y = 0.0#random.uniform(-1.0,1.0)
         s = random.uniform(0.01,0.10)
 
         b = CBody(x,y,s)
-        m = CMove(random.uniform(-1.0,1.0),random.uniform(-1.0,1.0))
+        m = CMove(random.uniform(-0.2,0.2),random.uniform(-0.2,0.2))
     
         man.add(e, b.typ, b)
         man.add(e, m.typ, m)
     
     #create player    
     #add components to the entity
-    x=0.1#Window_x/2
-    y=0.1#Window_y/2
-    s = .1
+    x=0.0
+    y=0.0
+    s = 0.15
     p = 100000000 #id of the player character; might create conflicts!
     b = CBody(x,y,s)
     m = CMove(0.00,0.00)

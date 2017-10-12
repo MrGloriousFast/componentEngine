@@ -51,7 +51,8 @@ play sound
     depending on state of the entity
 
 support more than one texture
-
+    transparency
+    
 buffer streaming
 
 rotate or flip images
