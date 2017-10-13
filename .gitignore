@@ -12,5 +12,9 @@ main.build
 main.dist
 main.spec
 main.prof
+export/*
+export/*/*
+export/*/*/*
 dist
+*.zip
 
