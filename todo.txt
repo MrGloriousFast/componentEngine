@@ -5,15 +5,8 @@
 --emergency--
 
 --inprogress--
-
-    working file for phillip
-        install virtual box             -done
-        install windeuf on virtualbox   -done
-        send files to VB
-        need wine to run py2exe or pyinsstaller or cxfreeze may even need vm
-        Seems hard to set up but possible
-        2017-10-04 
-
+      
+        
     rework components
         ids and type are all over the place
         id as component
@@ -27,6 +20,11 @@
 --testing--
 
 --fridge--
+    working file for phillip
+        install virtual box             -done
+        install windeuf on virtualbox   -done
+        using wine i could manage to create a folder with an exe that also works in wine
+        problem is i still have a folder full of files and not just one exe file
 
     render player
         different image
