@@ -6,9 +6,13 @@
 
 --inprogress--
 
-    creater
-        runtime entity creation
-        blueprint entities
+    working file for phillip
+        install virtual box             -done
+        install windeuf on virtualbox   -done
+        send files to VB
+        need wine to run py2exe or pyinsstaller or cxfreeze may even need vm
+        Seems hard to set up but possible
+        2017-10-04 
 
     rework components
         ids and type are all over the place
@@ -36,10 +40,9 @@
 
 --cellar--
 
-    working file for phillip
-        need wine to run py2exe or pyinsstaller or cxfreeze may even need vm
-        Seems hard to set up but possible
-        2017-10-04 
+    createur
+        runtime entity creation
+        blueprint entities
 
     make that whole thing a package or something so i can use it in other projects as an import
 
@@ -55,7 +58,7 @@
     support more than one texture
         add background
         transparency
-        different image depending on the move direction
+        different image depending on the move direction-
         change image depending on state
     
     buffer streaming

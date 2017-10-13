@@ -71,7 +71,8 @@ def main():
 
     
     #create systems
-    sys_render = SRender(Texture("data/images/Acid.png"))
+    t = Texture(os.path.join("data","images","acid.png"))
+    sys_render = SRender(t)
     sys_move = SMove()
     sys_human = SHuman(p)
     
