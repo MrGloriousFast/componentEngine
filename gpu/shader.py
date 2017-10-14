@@ -33,11 +33,7 @@ class AShader():
         #uniforms are global variables for the gpu
         self.uniforms = []
         self.uniforms.append(glGetUniformLocation(self.program, "camera"))
-        
-        
     
-
-
     def update_cam(self, pos, zoom):
         glUseProgram(self.program)
         #use the program before calling this function

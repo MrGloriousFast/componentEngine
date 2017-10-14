@@ -31,7 +31,7 @@ class SFps():
             delta = getTime() - self.frameCountTimer
             self.frameCountTimer = getTime()
             #
-            #print("fps: ", str((self.frameCount - self.frameCountOld)/delta)[0:3],"deltaT:" ,str(self.deltaT*1000)[0:5], "ms")
+            print("fps: ", str((self.frameCount - self.frameCountOld)/delta)[0:3],"deltaT:" ,str(self.deltaT*1000)[0:5], "ms")
             self.frameCountOld = self.frameCount
 
     def step(self):

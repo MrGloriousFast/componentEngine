@@ -43,7 +43,10 @@ class SRender:
         #everything that is the same for each instance
         self._create_static_buffer()
 
+    #prepare input into a form that the gpu can understand
+    #might be slow!
     def _eat_input(self, component_body_list):
+    
         self.inst_scale = []
         self.inst_pos = []
         self.instances = 0
