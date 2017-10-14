@@ -17,4 +17,5 @@ export/*/*
 export/*/*/*
 dist
 *.zip
+screenshot.*
 
