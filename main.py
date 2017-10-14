@@ -61,13 +61,13 @@ def main():
         sys_render.step(man.get_all_components('body'), man.get(player_id,'body'), man.get(player_id,'camera'))
 
     # -- MAINLOOP END --
-        user_input(man, sys_human)
+        user_input(man, sys_human, sys_screen)
         sys_screen.step()
         #limit the fps of the mainloop
         deltaT = sys_fps.step()
         deltaT = min(0.1,deltaT) #simulation runs at max with x seconds as deltaT
 
-def user_input(man, sys_human):
+def user_input(man, sys_human, sys_screen):
     
         # event handling loop
         for event in pygame.event.get(): 
@@ -75,6 +75,9 @@ def user_input(man, sys_human):
                 #print('Exit Game')
                 pygame.quit()
                 sys.exit()
+            if (event.type == KEYUP and event.key == K_F12):
+                pygame.image.save(sys_screen.window, "screenshot.jpeg")
+
 
         #Player Movements
         pygame.event.pump()
@@ -97,7 +100,8 @@ def user_input(man, sys_human):
             contx = 1.0
         else:
             contx = 0.0
-
+            
+        
         #process the change direction from keypresses to the human control processor
         sys_human.step(man, contx, conty)
 

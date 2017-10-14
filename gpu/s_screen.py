@@ -13,7 +13,7 @@ class SScreen():
         self.w = width
         self.h = height
 
-        pygame.display.set_mode((self.w,self.h), DOUBLEBUF|OPENGL|FULLSCREEN)
+        self.window = pygame.display.set_mode((self.w,self.h), DOUBLEBUF|OPENGL|FULLSCREEN)
         
         glEnable(GL_DEPTH_TEST) #unfuck 3d surfaces, might make it slower
         glClearColor(*clearColor)# that star just unpacks a tuple
