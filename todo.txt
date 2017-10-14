@@ -1,29 +1,19 @@
-
-#2017-10-12
-
-
 --emergency--
 
 --inprogress--
-      
-        
-    rework components
-        ids and type are all over the place
-        id as component
-        type as class variable
-
-    component manager
-        code cleanup
-        boolean has_component(id)
-        variable cleanup in manager
-
+              
 --testing--
 
 --fridge--
+    component manager
+        code cleanup
+        variable names cleanup in manager
+        
     EXE
         more optimization for low end laptops
         fullscreen - done
-        remove terminal        
+        remove terminal
+        only one file     
 
     camera component
         camera follows player - done
@@ -33,10 +23,6 @@
         make camera follows player but 'lag' behind/before him
 
 --cellar--
-
-    createur
-        runtime entity creation
-        blueprint entities
 
     make that whole thing a package or something so i can use it in other projects as an import
 

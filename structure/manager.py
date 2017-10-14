@@ -72,6 +72,12 @@ class Manager():
         return result
     """
 
+    def has_component(self, E_ID, component):
+        if component in self.e_id[E_ID]:
+            return True
+        else:
+            return False
+
     #returns a dict with all entities and a list of all their components in types
     def get_sorted(self, types):    
         result = {}

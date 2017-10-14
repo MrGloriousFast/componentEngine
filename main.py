@@ -14,7 +14,6 @@ from gpu.s_render import *
 from structure.s_fps import SFps
 
 #import Entity-Component-System class files
-from structure.entity import *
 from structure.component import *
 from structure.processor import *
 from structure.manager import Manager
@@ -43,7 +42,7 @@ def main():
         enemy(man)        
     #create player
     player_id = player(man)
-    
+        
     #create systems
     t = Texture(os.path.join("data","images","acid.png"))
     sys_render = SRender(t)

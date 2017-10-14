@@ -1,5 +1,8 @@
 from pygame.locals import *
 
+
+"""old class that we dont use anymore only kept as a reference until all processor classes are turned into system classes"""
+
 class Processor_Base:
     def __init__(self):
         self.test = 0

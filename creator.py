@@ -1,7 +1,6 @@
 #import Entity-Component-System class files
-from structure.entity import *
 from structure.component import *
-from structure.processor import *
+import random
 from structure.manager import Manager
 
 """
