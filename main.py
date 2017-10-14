@@ -18,7 +18,7 @@ from structure.entity import *
 from structure.component import *
 from structure.processor import *
 from structure.manager import Manager
-from structure.world import *
+from creator import *
 
 from physics.s_move import SMove
 
@@ -38,46 +38,20 @@ def main():
     #create a manager
     man = Manager()
     #fill the manager
-    for e in range(0,1500):
-
-        #add components to the entity
-        x = 0.0#random.uniform(-1.0,1.0)
-        y = 0.0#random.uniform(-1.0,1.0)
-        s = random.uniform(0.01,0.10)
-
-        b = CBody(x,y,s)
-        m = CMove(random.uniform(-0.2,0.2),random.uniform(-0.2,0.2))
-    
-        man.add(e, b.typ, b)
-        man.add(e, m.typ, m)
-    
-    #create player    
-    #add components to the entity
-    x=0.0
-    y=0.0
-    s = 0.15
-    p = 100000000 #id of the player character; might create conflicts!
-    b = CBody(x,y,s)
-    m = CMove(0.00,0.00)
-
-
-    cam = CCamera(1.0)     #create a camera
-    man.add(p, cam.typ, cam)
-
-    
-    man.add(p, b.typ, b)
-    man.add(p, m.typ, m)
-    man.group_create('player',[p])
-
+    #create enemies
+    for _ in range(0,1500):
+        enemy(man)        
+    #create player
+    player_id = player(man)
     
     #create systems
     t = Texture(os.path.join("data","images","acid.png"))
     sys_render = SRender(t)
     sys_move = SMove()
-    sys_human = SHuman(p)
+    sys_human = SHuman(player_id) #for keyboard control
     
     #some systems may need deltaT input
-    deltaT = 0.0
+    deltaT = 0.0 #time passed between two frames
 
     # -- MAINLOOP --
     while True:
@@ -85,7 +59,7 @@ def main():
         sys_move.step(man, deltaT)
                
         #send new positions to gpu and render them
-        sys_render.step(man.get_all_components('body'), man.get(p,'body'), man.get(p,'camera'))
+        sys_render.step(man.get_all_components('body'), man.get(player_id,'body'), man.get(player_id,'camera'))
 
     # -- MAINLOOP END --
         user_input(man, sys_human)

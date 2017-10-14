@@ -16,7 +16,7 @@ class Manager():
             #E_ID , C_T -> C
         self.e_id = {}        
         self.e_id[0] = {}
-        self.id_counter = 0
+        self.id_counter = 1 #we start with the id 1
         
         #groups
         #dict{groupname:set{E_ID}}
@@ -40,8 +40,8 @@ class Manager():
     """
     
     #creates Emtity E if not already created and gives it a component C of type C_T
-    def add(self, E_ID, C_T, C):
-        #first check if we need to make new ones
+    def add(self, E_ID, C):
+        C_T = C.typ
 
         #add the E_ID to the component sorted dict
         if(C_T not in self.c_id):
@@ -56,7 +56,9 @@ class Manager():
             self.component_typ[C_T] = set()
         self.component_typ[C_T].add(C)
         
-
+    def new_id(self):
+        self.id_counter += 1
+        return self.id_counter -1
 
     #returns the component that is of type C_T and is owned by E_ID
     def get(self, E_ID, C_T):
