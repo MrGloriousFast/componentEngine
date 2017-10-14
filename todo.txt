@@ -1,6 +1,9 @@
 --emergency--
 
 --inprogress--
+
+    MOVE
+        try to get the move updates done on the gpu and not the cpu
               
 --testing--
 
@@ -24,14 +27,24 @@
 
 --cellar--
 
-    make that whole thing a package or something so i can use it in other projects as an import
+    collision
+        make enemies and player collide
+        circle vs circle
+        dot vs circle
+        dot vs rect
+        circle vs rect
+        chunks/checkerboard world maps?
 
     isDead flag and removal of objects
         remove enemy / kill / delete
         hp component
 
-    fix import statements
+    ai system
+        ai component
 
+    render text
+        make a text component (with an offset to the pos in the component)
+        
     play sound
         depending on state of the entity
 
@@ -41,35 +54,17 @@
         different image depending on the move direction-
         change image depending on state
         animation
-    
-    buffer streaming
 
-    rotate or flip images
-        rotate camera
+    make that whole thing a package or something so i can use it in other projects as an import
+
+    fix import statements
     
-    multithreading?
+    OPTIMIZATION
+        buffer streaming
         more like multiprocessing
         maybe c can help us here, might make it harder to port to phillipp
-
-    collision
-        make enemies and player collide
-        chunks/checkerboard world maps?
+        
+    rotate or flip images
+        rotate camera
 
     write loader class
-
-    ai system
-        ai component
-
-    render text
-        make a text component (with an offset to the pos in the component)
-
---done--
-
-    rework systems(processors) and components to fit better into our manager
-        systeme bekommen den manager und nehmen sich von ihm was sie brauchen
-        bzw wir geben ihnen alles vom manager wass sie brauchen als argument mit
-
-    turn instance class into processor component model
-        its called s_render from now on
-
-
