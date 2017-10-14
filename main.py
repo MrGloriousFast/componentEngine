@@ -73,7 +73,7 @@ def user_input(man, sys_human):
         # event handling loop
         for event in pygame.event.get(): 
             if event.type == QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
-                print('Exit Game')
+                #print('Exit Game')
                 pygame.quit()
                 sys.exit()
 

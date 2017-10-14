@@ -22,7 +22,7 @@
 --fridge--
     EXE
         more optimization for low end laptops
-        fullscreen
+        fullscreen - done
         remove terminal        
 
     camera component
